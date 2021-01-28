@@ -15,4 +15,14 @@ public class Joueur {
 
     @ElementCollection
     Map<Integer, Integer> scoresJeu;
+
+    @ElementCollection
+    Map<Integer, Integer> tempsParJeu;
+
+    @OneToMany
+    Collection<Badge> badges;
+
+    @OneToMany
+    Collection<GeolocalisationVille> pointsVisites;
+
 }

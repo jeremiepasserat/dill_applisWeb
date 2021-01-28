@@ -1,7 +1,6 @@
 package com.dill.api_rest.modele;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -11,7 +10,7 @@ public class Defi {
     int id;
 
     @ElementCollection
-    List<QuestionsDefi> questions;
+    List<QuestionDefi> questions;
 
 
 }

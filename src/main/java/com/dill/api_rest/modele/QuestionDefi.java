@@ -5,7 +5,7 @@ import javax.persistence.Embedded;
 import javax.persistence.OneToOne;
 
 @Embeddable
-public class QuestionsDefi {
+public class QuestionDefi {
 
     int numQuestion;
     String texteQuestion;
