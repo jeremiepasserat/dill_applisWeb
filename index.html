@@ -6,11 +6,59 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Accueil application de Lamotte-Beuvron</title>
+        <link rel="stylesheet" href="./CSS/style.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
-    </body>
+        <div id="block_page">
+            <header>
+                <div id="titre_principale">
+                    <div id="logo">
+                        <img src="./Images/logo.PNG" alt="Logo de l'appli" />
+                        <h1>Lamotte Beuvron</h1>
+                    </div>
+                </div>
+                
+                <nav>
+                    <ul>
+                        <li><a href='#'>Connexion</a></li>
+                    </ul>
+                </nav>
+                
+            </header>
+            
+            <div id='banniere_image'>
+                <div id='banniere_description'>
+                    Commune Lamotte-Beuvron
+                    <a href='https://www.lamotte-beuvron.fr/index.php' class='bouton_rouge'>Voir le site<img src='./Images/flecheblanche.png' alt='' /></a>
+                </div>
+            </div>
+            
+            <section>
+                <article>
+                    <h1>Application de la commune de Lamotte-Beuvron</h1>
+                    <p>Bienvenu sur le site administratif de l'application de la commune Lamotte-Beuvron. Ce site est réservé au employer de la mairie afin d'exercer les tâches administratives.</p>
+                    <p>Si vous voulez accéder à l'application pour jouer cliquer sur JOUER !</p> 
+                    <p><a href='#'><button id='acces_appli_user' type="button">JOUER</button> </a></p>
+                </article>
+                <aside>
+                    <h1>A propos de Lamotte-Beuvron</h1>
+                    <img src="Images/logo_mairie.png" alt="logo de la mairie"/>
+                    <h2>Ouverture de la Mairie</h2>
+                    <p class='horaire_jour'>Lundi - Mardi 
+                        <br/> Mercredi - Vendredi
+                    <br/> 9h00 - 12h00 / 13h30 - 17h30
+                    <br/> Jeudi
+                    <br/> 9h00 - 12h00
+                    <br/> Samedi
+                    <br/> 9h30 - 12h00
+                    <br/> tel : 02 54 88 84 84</p>
+                </aside>
+            </section>
+            
+           
+        </div>
+    </body>    
 </html>
