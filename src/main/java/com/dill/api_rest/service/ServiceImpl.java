@@ -217,6 +217,14 @@ public class ServiceImpl implements Service {
 
     @Override
     @Transactional
+    public void purgeImagesJeu(int idJeu) {
+        Jeu jeu = jeuDao.find(idJeu);
+        jeu.purgeImages();
+        jeuDao.edit(jeu);
+    }
+
+    @Override
+    @Transactional
     public void addImage(int idJeu, int numImage, String image) {
         Jeu jeu = jeuDao.find(idJeu);
         jeu.addImage(numImage, image);

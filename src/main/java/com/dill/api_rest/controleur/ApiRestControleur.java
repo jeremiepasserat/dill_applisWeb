@@ -94,8 +94,26 @@ public class ApiRestControleur {
     }
 
     // modifierScore
+    @PatchMapping("/modifierScore")
+    ResponseEntity<String> modifierScore(@RequestBody String pseudo, @RequestBody int idJeu, @RequestBody int scoreJeu){
+        service.modifierScore(pseudo, idJeu, scoreJeu);
+        return ResponseEntity.ok("Score modifié");
+    }
+
+
     // modifierTemps
+    @PatchMapping("/modifierTemps")
+    ResponseEntity<String> modifierTemps(@RequestBody String pseudo, @RequestBody int idJeu, @RequestBody int tempsJeu){
+        service.modifierTemps(pseudo, idJeu, tempsJeu);
+        return ResponseEntity.ok("Temps modifié");
+    }
+
     // modifierCoords
+    @PatchMapping("/modifierCoords")
+    ResponseEntity<String> modifierCoords(@RequestBody String pseudo, @RequestBody double longitude, @RequestBody double latitude){
+        service.modifierCoords(pseudo, longitude, latitude);
+        return ResponseEntity.ok("Coordonnées du joueur modifiées");
+    }
 
     // deleteJoueur
     @DeleteMapping("/deleteJoueur/{pseudo}")
@@ -126,10 +144,15 @@ public class ApiRestControleur {
     @PostMapping("/newPointGeo")
     ResponseEntity<String> createGeolocalisation(@RequestBody GeolocalisationVille geolocalisationVille){
         service.newGeolocalisation(geolocalisationVille.getCoordonneesPoint(), geolocalisationVille.getNomPoint());
-        return ResponseEntity.ok().body("Nouveau Point de Géolocalisation Créé créé");
+        return ResponseEntity.ok().body("Nouveau Point de Géolocalisation créé");
     }
 
     // modifierGeolocalisation
+    @PatchMapping("/modifierGeoloc")
+    ResponseEntity<String> modifierGeolocalisation(@RequestBody int idPointGeo, @RequestBody Coordonnees newPoint, @RequestBody String nomPoint){
+        service.modifierGeolocalisation(idPointGeo, newPoint, nomPoint);
+        return ResponseEntity.ok("Coordonnées du Point Géolocalisé modifiées");
+    }
 
     // deleteGeolocalisation
     @DeleteMapping("/deleteJeu/{pointGeo}")
@@ -147,7 +170,39 @@ public class ApiRestControleur {
     }
 
     // modifierLogoJeu
+    @PatchMapping("/modifierLogoJeu/{idJeu}")
+    ResponseEntity<String> modifierLogoJeu(@PathVariable int idJeu, @RequestBody String newLogo){
+        service.modifierLogoJeu(idJeu, newLogo);
+        return ResponseEntity.ok("Logo jeu modifié");
+    }
+
+    // purgeImages
+    @PatchMapping("/purgeImagesJeu/{idJeu}")
+    ResponseEntity<String> purgeImagesJeu(@PathVariable int idJeu){
+
+        service.purgeImagesJeu(idJeu);
+        return ResponseEntity.ok("Images jeu purgées");
+
+    }
+
+
     // addImage
+    @PostMapping("/newImageJeu/{idJeu}")
+    ResponseEntity<String> addImageJeu(@PathVariable int idJeu, @RequestBody int idImage, @RequestBody String image){
+
+        service.addImage(idJeu, idImage, image);
+        return ResponseEntity.ok("Image insérée");
+
+    }
+
+    // Nettoyer toutes les images d'un jeu
+    @DeleteMapping("/purgerImagesJeu/{idJeu}")
+    ResponseEntity<String> purgerImagesJeu(@PathVariable int idJeu){
+
+        service.purgeImagesJeu(idJeu);
+        return ResponseEntity.ok("Images jeu purgées");
+
+    }
 
     // deleteJeu
     @DeleteMapping("/deleteJeu/{idJeu}")
@@ -188,7 +243,13 @@ public class ApiRestControleur {
 
 
     // ajouterQuestion
+    @PostMapping("/newImageJeu/{idDefi}")
+    ResponseEntity<String> addQuestionDefi(@PathVariable int idDefi, @RequestBody QuestionDefi questionDefi){
 
+        service.addQuestion(idDefi, questionDefi.getNumQuestion(), questionDefi.getTexteQuestion(), questionDefi.getImageQuestion(), questionDefi.getReponseQuestion());
+        return ResponseEntity.ok("Question créée");
+
+    }
 
     // supprimerQuestion
     @DeleteMapping("/deleteJoueur/{idDefi}/{numQuestion}")
@@ -199,5 +260,12 @@ public class ApiRestControleur {
     }
 
     // ajouterReponseDefi
+    @PostMapping("/newImageJeu/{idDefi}")
+    ResponseEntity<String> addQuestionDefi(@PathVariable int idDefi, @RequestBody String pseudo,  @RequestBody ReponseDefi reponseDefi){
+
+        service.addReponseDefi(idDefi, pseudo, reponseDefi.getNumQuestion(), reponseDefi.getTexteReponse(), reponseDefi.getImageReponse());
+        return ResponseEntity.ok("Réponse au défi recue");
+
+    }
 
 }

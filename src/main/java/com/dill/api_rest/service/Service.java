@@ -75,6 +75,9 @@ public interface Service {
     // modifier logo Jeu
     void modifierLogoJeu (int idJeu, String logo);
 
+    // Virer toutes les images d'un jeu (pour en remettre de nouvelles)
+    void purgeImagesJeu (int idJeu);
+
     // Ajouter image Jeu ou les modifier
     void addImage(int idJeu, int numImage, String image);
 

@@ -55,4 +55,8 @@ public class Jeu {
     public void addImage(int numImage, String image){
         imagesJeu.put(numImage, image);
     }
+
+    public void purgeImages(){
+        imagesJeu.clear();
+    }
 }
