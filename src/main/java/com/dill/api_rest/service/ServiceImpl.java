@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ServicesImpl implements Services {
+public class ServiceImpl implements Service {
 
     private BadgeDao badgeDao;
     private DefiDao defiDao;
@@ -22,7 +22,7 @@ public class ServicesImpl implements Services {
     private QrCodeDao qrCodeDao;
     private ReponseDefiDao reponseDefiDao;
 
-    public ServicesImpl(BadgeDao badgeDao, DefiDao defiDao, GeolocalisationVilleDao geolocalisationVilleDao, JeuDao jeuDao, JoueurDao joueurDao, MessageCMJDao messageCMJDao, QrCodeDao qrCodeDao, ReponseDefiDao reponseDefiDao) {
+    public ServiceImpl(BadgeDao badgeDao, DefiDao defiDao, GeolocalisationVilleDao geolocalisationVilleDao, JeuDao jeuDao, JoueurDao joueurDao, MessageCMJDao messageCMJDao, QrCodeDao qrCodeDao, ReponseDefiDao reponseDefiDao) {
         this.badgeDao = badgeDao;
         this.defiDao = defiDao;
         this.geolocalisationVilleDao = geolocalisationVilleDao;
@@ -83,7 +83,7 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public Collection<GeolocalisationVille> pointsAVisiter() {
+    public Collection<GeolocalisationVille> getPointsAVisiter() {
         return geolocalisationVilleDao.findAll();
     }
 
@@ -111,13 +111,13 @@ public class ServicesImpl implements Services {
     }
 
     @Override
-    public Map<Integer, String> imageJeu(int idJeu) {
+    public Map<Integer, String> getImagesJeu(int idJeu) {
         Jeu jeu = jeuDao.find(idJeu);
         return jeu.getImagesJeu();
     }
 
     @Override
-    public String logoJeu(int idJeu) {
+    public String getLogoJeu(int idJeu) {
         Jeu jeu = jeuDao.find(idJeu);
         return jeu.getLogoJeu();
     }
@@ -155,7 +155,7 @@ public class ServicesImpl implements Services {
 
     @Override
     @Transactional
-    public void changeCoords(String pseudo, double longitude, double latitude) {
+    public void modifierCoords(String pseudo, double longitude, double latitude) {
         Joueur joueur = joueurDao.find(pseudo);
         joueur.setCoordonneesJoueur(new Coordonnees(longitude, latitude));
     }
@@ -221,7 +221,7 @@ public class ServicesImpl implements Services {
 
     @Override
     @Transactional
-    public void AddImage(int idJeu, int numImage, String image) {
+    public void addImage(int idJeu, int numImage, String image) {
         Jeu jeu = jeuDao.find(idJeu);
         jeu.addImage(numImage, image);
         jeuDao.edit(jeu);
@@ -258,7 +258,7 @@ public class ServicesImpl implements Services {
 
     @Override
     @Transactional
-    public void ajouterQuestion(int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion) {
+    public void addQuestion(int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion) {
         QuestionDefi questionDefi = new QuestionDefi(numQuestion, texteQuestion, imageQuestion, reponseQuestion);
         Defi defi = defiDao.find(idDefi);
         defi.ajouterQuestion(questionDefi);
@@ -267,7 +267,7 @@ public class ServicesImpl implements Services {
 
     @Override
     @Transactional
-    public void supprimerQuestion(int idDefi, int idQuestion) {
+    public void deleteQuestion(int idDefi, int idQuestion) {
         Defi defi = defiDao.find(idDefi);
         defi.supprimerQuestion(idQuestion);
     }
@@ -275,7 +275,7 @@ public class ServicesImpl implements Services {
 
     @Override
     @Transactional
-    public void ajouterReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse) {
+    public void addReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse) {
         ReponseDefi reponseDefi = new ReponseDefi(idDefi, pseudo, numQuestion, texteReponse, imageReponse);
         reponseDefiDao.create(reponseDefi);
     }

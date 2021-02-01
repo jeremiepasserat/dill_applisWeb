@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 
-public interface Services {
+public interface Service {
 
     // pour charger les informations d'un joueur
     Joueur getJoueurByPseudo (String pseudo);
@@ -23,7 +23,7 @@ public interface Services {
     // Récupérer tous les Qr Codes
     Collection<QrCode> getQrCodes();
     // Récupérer tous les points pour la géolocalisation de la carte
-    Collection<GeolocalisationVille> pointsAVisiter();
+    Collection<GeolocalisationVille> getPointsAVisiter();
     // Récupérer tous les badges existants
     Collection<Badge> getAllBadges();
 
@@ -37,10 +37,10 @@ public interface Services {
     Collection<QuestionDefi> getDefi (int idDefi);
 
     // Récupérer les images d'un Jeu
-    Map<Integer, String> imageJeu (int idJeu);
+    Map<Integer, String> getImagesJeu(int idJeu);
 
     // Récupérer le logo d'un Jeu
-    String logoJeu (int idJeu);
+    String getLogoJeu(int idJeu);
 
     // Créer un joueur
     void newJoueur(String pseudo);
@@ -52,7 +52,7 @@ public interface Services {
     void modifierTemps (String pseudo, int idJeu, int tempsJeu);
 
     // charger des coordonnées
-    void changeCoords (String pseudo, double longitude, double latitude);
+    void modifierCoords(String pseudo, double longitude, double latitude);
 
     // Supprimer un joueur
     void deleteJoueur (String pseudo);
@@ -79,7 +79,7 @@ public interface Services {
     void modifierLogoJeu (int idJeu, String logo);
 
     // Ajouter image Jeu ou les modifier
-    void AddImage (int idJeu, int numImage, String image);
+    void addImage(int idJeu, int numImage, String image);
 
     // Supprimer Jeu
     void deleteJeu (int idJeu);
@@ -97,12 +97,12 @@ public interface Services {
     void deleteDefi (int idDefi);
 
     // Ajouter une question au défi ou en modifier une
-    void ajouterQuestion (int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion);
+    void addQuestion(int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion);
 
     // Supprimer une question du défi (a voir si ca fonctionne avec seulement "idQuestion")
-    void supprimerQuestion (int idDefi, int idQuestion);
+    void deleteQuestion (int idDefi, int idQuestion);
 
     // stocker les réponses des utilisateurs aux défis (utile pour manipuler les photos & les réponses textuelles non traitables directement par l'app)
-    void ajouterReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse);
+    void addReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse);
 
 }
