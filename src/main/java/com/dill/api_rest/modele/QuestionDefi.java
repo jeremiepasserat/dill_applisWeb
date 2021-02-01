@@ -12,6 +12,13 @@ public class QuestionDefi {
     String imageQuestion;
     String reponseQuestion;
 
+    public QuestionDefi(int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion) {
+        this.numQuestion = numQuestion;
+        this.texteQuestion = texteQuestion;
+        this.imageQuestion = imageQuestion;
+        this.reponseQuestion = reponseQuestion;
+    }
+
     public int getNumQuestion() {
         return numQuestion;
     }

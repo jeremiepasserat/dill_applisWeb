@@ -18,6 +18,15 @@ public class ReponseDefi {
     LocalDate dateReponse;
     String imageReponse;
 
+    public ReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse) {
+        this.idDefi = idDefi;
+        this.pseudoJoueur = pseudo;
+        this.numQuestion = numQuestion;
+        this.texteReponse = texteReponse;
+        this.imageReponse = imageReponse;
+        this.dateReponse = LocalDate.now();
+    }
+
     public int getIdReponse() {
         return idReponse;
     }

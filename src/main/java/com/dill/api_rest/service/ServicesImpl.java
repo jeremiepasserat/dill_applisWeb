@@ -161,87 +161,122 @@ public class ServicesImpl implements Services {
     }
 
     @Override
+    @Transactional
     public void deleteJoueur(String pseudo) {
         joueurDao.remove(joueurDao.find(pseudo));
     }
 
     @Override
-    public Badge newBadge(int idBadge, String nomBadge, String imageBadge) {
-        return null;
+    @Transactional
+    public void newBadge(int idBadge, String nomBadge, String imageBadge) {
+        badgeDao.create(new Badge(idBadge, nomBadge, imageBadge));
     }
 
     @Override
+    @Transactional
     public void deleteBadge(int idBadge) {
-
+        badgeDao.remove(badgeDao.find(idBadge));
     }
 
     @Override
-    public GeolocalisationVille newGeolocalisation(Coordonnees newPoint, String nomPoint) {
-        return null;
+    @Transactional
+    public void newGeolocalisation(Coordonnees newPoint, String nomPoint) {
+        geolocalisationVilleDao.create(new GeolocalisationVille(newPoint, nomPoint));
     }
 
     @Override
-    public GeolocalisationVille modifierGeolocalisation(int idGeolocalisation, Coordonnees newPoint, String nomPoint) {
-        return null;
+    @Transactional
+    public void modifierGeolocalisation(int idGeolocalisation, Coordonnees newPoint, String nomPoint) {
+
+        GeolocalisationVille geolocalisationVille = geolocalisationVilleDao.find(idGeolocalisation);
+
+        if (newPoint != null)
+            geolocalisationVille.setCoordonneesPoint(newPoint);
+        if (!nomPoint.equals(""))
+            geolocalisationVille.setNomPoint(nomPoint);
+
+        geolocalisationVilleDao.edit(geolocalisationVille);
     }
 
     @Override
+    @Transactional
     public void deleteGeolocalisation(int idGeolocalisation) {
-
+        geolocalisationVilleDao.remove(geolocalisationVilleDao.find(idGeolocalisation));
     }
 
     @Override
-    public int newJeu(String nom, String logo) {
-        return 0;
+    @Transactional
+    public void newJeu(String nom, String logo) {
+        jeuDao.create(new Jeu(nom, logo));
     }
 
     @Override
+    @Transactional
     public void modifierLogoJeu(int idJeu, String logo) {
+        Jeu jeu = jeuDao.find(idJeu);
+        jeu.setLogoJeu(logo);
+        jeuDao.edit(jeu);
 
     }
 
     @Override
-    public int AddImage(int idJeu, int numImage, String image) {
-        return 0;
+    @Transactional
+    public void AddImage(int idJeu, int numImage, String image) {
+        Jeu jeu = jeuDao.find(idJeu);
+        jeu.addImage(numImage, image);
+        jeuDao.edit(jeu);
     }
 
     @Override
+    @Transactional
     public void deleteJeu(int idJeu) {
-
+        jeuDao.remove(jeuDao.find(idJeu));
     }
 
     @Override
-    public MessageCMJ newMessage(String message, String pseudo) {
-        return null;
+    @Transactional
+    public void newMessage(String message, String pseudo) {
+        messageCMJDao.create(new MessageCMJ(message, joueurDao.find(pseudo)));
     }
 
     @Override
+    @Transactional
     public void deleteMessage(int idMessage) {
-
+        messageCMJDao.remove(messageCMJDao.find(idMessage));
     }
 
     @Override
-    public int newDefi() {
-        return 0;
+    @Transactional
+    public void newDefi() {
+        defiDao.create(new Defi());
     }
 
     @Override
-    public int ajouterQuestion(int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion) {
-        return 0;
+    public void deleteDefi(int idDefi) {
+        defiDao.remove(defiDao.find(idDefi));
     }
 
     @Override
+    @Transactional
+    public void ajouterQuestion(int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion) {
+        QuestionDefi questionDefi = new QuestionDefi(numQuestion, texteQuestion, imageQuestion, reponseQuestion);
+        Defi defi = defiDao.find(idDefi);
+        defi.ajouterQuestion(questionDefi);
+        defiDao.edit(defi);
+    }
+
+    @Override
+    @Transactional
     public void supprimerQuestion(int idDefi, int idQuestion) {
-
+        Defi defi = defiDao.find(idDefi);
+        defi.supprimerQuestion(idQuestion);
     }
 
-    @Override
-    public void deleteQuestion(int idDefi) {
-
-    }
 
     @Override
+    @Transactional
     public void ajouterReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse) {
-
+        ReponseDefi reponseDefi = new ReponseDefi(idDefi, pseudo, numQuestion, texteReponse, imageReponse);
+        reponseDefiDao.create(reponseDefi);
     }
 }

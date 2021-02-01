@@ -14,6 +14,12 @@ public class Badge {
     String nom;
     String image;
 
+    public Badge(int idBadge, String nomBadge, String imageBadge) {
+        this.id = idBadge;
+        this.nom = nomBadge;
+        this.image = imageBadge;
+    }
+
     public int getId() {
         return id;
     }

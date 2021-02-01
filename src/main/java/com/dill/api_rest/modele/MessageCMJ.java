@@ -15,6 +15,12 @@ public class MessageCMJ {
     @ManyToOne(fetch = FetchType.EAGER)
     Joueur joueur;
 
+    public MessageCMJ(String message, Joueur joueur) {
+        this.message = message;
+        this.joueur = joueur;
+        this.dateMessage = LocalDate.now();
+    }
+
     public LocalDate getDateMessage() {
         return dateMessage;
     }

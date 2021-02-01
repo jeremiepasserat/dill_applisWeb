@@ -11,6 +11,11 @@ public class GeolocalisationVille {
     String nomPoint;
     Coordonnees coordonneesPoint;
 
+    public GeolocalisationVille(Coordonnees newPoint, String nomPoint) {
+        this.nomPoint = nomPoint;
+        this.coordonneesPoint = newPoint;
+    }
+
     public int getNumeroPoint() {
         return numeroPoint;
     }

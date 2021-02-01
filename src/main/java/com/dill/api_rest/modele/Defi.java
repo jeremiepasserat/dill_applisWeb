@@ -32,7 +32,8 @@ public class Defi {
         questions.add(questionDefi);
     }
 
-    public void supprimerQuestion (QuestionDefi questionDefi){
-        questions.remove(questionDefi);
+    public void supprimerQuestion (int idQuestion){
+
+        questions.removeIf(questionDefi -> questionDefi.numQuestion == idQuestion);
     }
 }

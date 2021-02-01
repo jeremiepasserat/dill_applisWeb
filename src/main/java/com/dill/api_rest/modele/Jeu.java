@@ -15,6 +15,11 @@ public class Jeu {
     Map<Integer, String> imagesJeu;
     String logoJeu;
 
+    public Jeu(String nom, String logo) {
+        this.nomJeu = nom;
+        this.logoJeu = logo;
+    }
+
     public String getNomJeu() {
         return nomJeu;
     }
@@ -45,5 +50,9 @@ public class Jeu {
 
     public void setLogoJeu(String logoJeu) {
         this.logoJeu = logoJeu;
+    }
+
+    public void addImage(int numImage, String image){
+        imagesJeu.put(numImage, image);
     }
 }
