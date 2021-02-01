@@ -30,11 +30,8 @@ public interface Service {
     // Récupérer périodiquement les réponses à un défi
     Collection<ReponseDefi> getReponsesDefi(LocalDate date);
 
-    // Créer une question pour un défi
-    void setQuestionDefi (int idDefi, QuestionDefi question);
-
     // Récupérer toutes les questions d'un défi
-    Collection<QuestionDefi> getDefi (int idDefi);
+    Defi getDefi (int idDefi);
 
     // Récupérer les images d'un Jeu
     Map<Integer, String> getImagesJeu(int idJeu);

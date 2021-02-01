@@ -10,9 +10,9 @@ public class Defi {
     int id;
 
     @ElementCollection
-    List<QuestionDefi> questions;
+    Defi questions;
 
-    public List<QuestionDefi> getQuestions() {
+    public Defi getQuestions() {
         return questions;
     }
 
@@ -24,7 +24,7 @@ public class Defi {
         this.id = id;
     }
 
-    public void setQuestions(List<QuestionDefi> questions) {
+    public void setQuestions(Defi questions) {
         this.questions = questions;
     }
 
