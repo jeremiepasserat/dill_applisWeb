@@ -14,10 +14,10 @@ public class Joueur {
     Collection<MessageCMJ> messageCMJS;
 
     @ElementCollection
-    Map<Integer, Integer> scoresJeu;
+    Collection<Score> scoresJeu;
 
-    @ElementCollection
-    Map<Integer, Integer> tempsParJeu;
+    @Embedded
+    Coordonnees coordonneesJoueur;
 
     @OneToMany
     Collection<Badge> badges;
@@ -25,4 +25,59 @@ public class Joueur {
     @OneToMany
     Collection<GeolocalisationVille> pointsVisites;
 
+    public Joueur(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public Coordonnees getCoordonneesJoueur() {
+        return coordonneesJoueur;
+    }
+
+    public Collection<Score> getScoresJeu() {
+        return scoresJeu;
+    }
+
+    public Collection<MessageCMJ> getMessageCMJS() {
+        return messageCMJS;
+    }
+
+
+
+    public Collection<Badge> getBadges() {
+        return badges;
+    }
+
+    public Collection<GeolocalisationVille> getPointsVisites() {
+        return pointsVisites;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public void setMessageCMJS(Collection<MessageCMJ> messageCMJS) {
+        this.messageCMJS = messageCMJS;
+    }
+
+    public void setScoresJeu(Collection<Score> scoresJeu) {
+        this.scoresJeu = scoresJeu;
+    }
+
+
+
+    public void setCoordonneesJoueur(Coordonnees coordonneesJoueur) {
+        this.coordonneesJoueur = coordonneesJoueur;
+    }
+
+    public void setBadges(Collection<Badge> badges) {
+        this.badges = badges;
+    }
+
+    public void setPointsVisites(Collection<GeolocalisationVille> pointsVisites) {
+        this.pointsVisites = pointsVisites;
+    }
 }

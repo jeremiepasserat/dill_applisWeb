@@ -12,5 +12,35 @@ public class QuestionDefi {
     String imageQuestion;
     String reponseQuestion;
 
+    public int getNumQuestion() {
+        return numQuestion;
+    }
 
+    public String getTexteQuestion() {
+        return texteQuestion;
+    }
+
+    public String getImageQuestion() {
+        return imageQuestion;
+    }
+
+    public String getReponseQuestion() {
+        return reponseQuestion;
+    }
+
+    public void setNumQuestion(int numQuestion) {
+        this.numQuestion = numQuestion;
+    }
+
+    public void setTexteQuestion(String texteQuestion) {
+        this.texteQuestion = texteQuestion;
+    }
+
+    public void setImageQuestion(String imageQuestion) {
+        this.imageQuestion = imageQuestion;
+    }
+
+    public void setReponseQuestion(String reponseQuestion) {
+        this.reponseQuestion = reponseQuestion;
+    }
 }

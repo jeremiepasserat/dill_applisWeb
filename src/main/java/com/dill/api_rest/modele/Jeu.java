@@ -13,5 +13,37 @@ public class Jeu {
     String nomJeu;
     @ElementCollection
     Map<Integer, String> imagesJeu;
+    String logoJeu;
 
+    public String getNomJeu() {
+        return nomJeu;
+    }
+
+    public Map<Integer, String> getImagesJeu() {
+        return imagesJeu;
+    }
+
+    public String getLogoJeu() {
+        return logoJeu;
+    }
+
+    public int getIdJeu() {
+        return idJeu;
+    }
+
+    public void setIdJeu(int idJeu) {
+        this.idJeu = idJeu;
+    }
+
+    public void setNomJeu(String nomJeu) {
+        this.nomJeu = nomJeu;
+    }
+
+    public void setImagesJeu(Map<Integer, String> imagesJeu) {
+        this.imagesJeu = imagesJeu;
+    }
+
+    public void setLogoJeu(String logoJeu) {
+        this.logoJeu = logoJeu;
+    }
 }

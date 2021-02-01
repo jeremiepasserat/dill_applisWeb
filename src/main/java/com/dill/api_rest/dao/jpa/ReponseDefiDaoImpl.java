@@ -5,8 +5,8 @@ import com.dill.api_rest.dao.ReponseDefiDao;
 import com.dill.api_rest.modele.GeolocalisationVille;
 import com.dill.api_rest.modele.ReponseDefi;
 
-public class ReponseDefiDaoImpl  extends AbstractDaoImpl<ReponseDefiDao> implements ReponseDefiDao {
-    public ReponseDefiDaoImpl(Class<ReponseDefiDao> entityClass) {
+public class ReponseDefiDaoImpl  extends AbstractDaoImpl<ReponseDefi> implements ReponseDefiDao {
+    public ReponseDefiDaoImpl(Class<ReponseDefi> entityClass) {
         super(entityClass);
     }
 }

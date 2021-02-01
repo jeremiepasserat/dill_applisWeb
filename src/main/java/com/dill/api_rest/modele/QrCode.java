@@ -11,4 +11,27 @@ public class QrCode {
     String texteCode;
     int scoreCode;
 
+    public int getNumCode() {
+        return numCode;
+    }
+
+    public String getTexteCode() {
+        return texteCode;
+    }
+
+    public int getScoreCode() {
+        return scoreCode;
+    }
+
+    public void setNumCode(int numCode) {
+        this.numCode = numCode;
+    }
+
+    public void setTexteCode(String texteCode) {
+        this.texteCode = texteCode;
+    }
+
+    public void setScoreCode(int scoreCode) {
+        this.scoreCode = scoreCode;
+    }
 }
