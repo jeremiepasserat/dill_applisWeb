@@ -21,11 +21,15 @@ and open the template in the editor.
                     </div>
                 </div>
                 
-                <nav>
-                    <ul>
-                        <li><a href='#'>Connexion</a></li>
-                    </ul>
-                </nav>
+                <div class="connexion">
+                    <form action="inscription_php.php" method="post" >
+                        <label for="email">Email</label> :
+                        <input type="email" name="email" id="email" required />
+                        <label for="password">Mot de passe </label>
+                        <input type="password" name="password" id="password" required />
+                        <input type="submit" value="Connexion" />
+                    </form>                    
+                </div>
                 
             </header>
             

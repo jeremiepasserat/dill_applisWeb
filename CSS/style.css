@@ -52,6 +52,30 @@ header h1
     margin: 0 0 0 10px;
 }
 
+/*Connexion*/
+
+.connexion{
+    align-self: flex-end;    
+}
+
+form{
+    display: flex;
+}
+
+.connexion form input{
+    border-radius: 10px;
+}
+
+.connexion form input[type="submit"]{
+    font-weight: bold;
+    color: #fff;
+    background-color: blue;
+}
+
+.connexion label{
+    color:blue;
+}
+
 /* Navigation */
 
 nav{
@@ -174,6 +198,17 @@ article button
 {
     background-color: #f3c747;
     border-radius: 10px;
+    width: 120px;
+    height: 60px;
+}
+
+article button:hover{
+    background-color: #f1bd27;
+    border: 2px #fe9718 solid;
+    box-shadow: 6px 6px 10px black;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: red;
 }
 
 aside
