@@ -2,9 +2,13 @@ package com.dill.api_rest.controleur;
 
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Service;
+import org.apache.catalina.realm.GenericPrincipal;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
@@ -21,6 +25,18 @@ public class ApiRestControleur {
             (){
         return ResponseEntity.ok("test");
     }
+
+    @GetMapping("/username")
+    ResponseEntity<String> user
+            (Principal principal){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean hasUserRole = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
+
+        return ResponseEntity.ok("test : " + principal.getName() + "-" + hasUserRole);
+    }
+
     // getjoueurbypseudo
     @GetMapping("/joueur/{pseudo}")
     ResponseEntity<Joueur> getJoueurByPseudo (@PathVariable String pseudo){
