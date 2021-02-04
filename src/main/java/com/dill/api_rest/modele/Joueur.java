@@ -25,6 +25,9 @@ public class Joueur {
     @OneToMany
     Collection<GeolocalisationVille> pointsVisites;
 
+    public Joueur() {
+    }
+
     public Joueur(String pseudo) {
         this.pseudo = pseudo;
     }

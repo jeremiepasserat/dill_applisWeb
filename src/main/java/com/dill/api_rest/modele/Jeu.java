@@ -20,6 +20,9 @@ public class Jeu {
         this.logoJeu = logo;
     }
 
+    public Jeu() {
+    }
+
     public String getNomJeu() {
         return nomJeu;
     }

@@ -11,6 +11,9 @@ public class QrCode {
     String texteCode;
     int scoreCode;
 
+    public QrCode() {
+    }
+
     public int getNumCode() {
         return numCode;
     }

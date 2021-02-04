@@ -16,6 +16,9 @@ public class GeolocalisationVille {
         this.coordonneesPoint = newPoint;
     }
 
+    public GeolocalisationVille() {
+    }
+
     public int getNumeroPoint() {
         return numeroPoint;
     }

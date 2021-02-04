@@ -1,36 +1,50 @@
 package com.dill.api_rest.config;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.hibernate.cfg.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Qualifier("dataSource")
+    @Autowired
+    DataSource dataSource;
+
+    //Enable jdbc authentication
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.
+                jdbcAuthentication()
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("select username, password, enabled from users where username = ?")
+                .authoritiesByUsernameQuery("select username, authority from authorities where username = ?")
+                .dataSource(dataSource);        }
+
+
+
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.jdbcAuthentication() a tester
-       // String password = passwordEncoder().encode("admin");
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/api/**").authenticated().and().httpBasic();
 
-
-        auth.inMemoryAuthentication().withUser("jambon").password("{noop}jambon").roles("USER").and()
-        .withUser("admin").password("{bcrypt}$2a$10$CThG00NH0/uBWSn7QwMYqeYqjnnb6lvG/dnAgrk.fAwjUQ.wBHqzm").roles("ADMIN");
+        http.csrf().disable();
     }
 
-   @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/*").authenticated()
-                .and().httpBasic()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-   }
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        //return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder(10);
+    }
 }

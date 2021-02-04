@@ -8,6 +8,9 @@ public class Coordonnees {
     double longitude;
     double latitude;
 
+    public Coordonnees() {
+    }
+
     public Coordonnees(double longitude, double latitude) {
     }
 

@@ -4,6 +4,7 @@ import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Service;
 import org.apache.catalina.realm.GenericPrincipal;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,7 @@ public class ApiRestControleur {
     }
 
     @GetMapping("/username")
-    ResponseEntity<String> user
-            (Principal principal){
+    ResponseEntity<String> user (Principal principal){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         boolean hasUserRole = authentication.getAuthorities().stream()
@@ -36,6 +36,7 @@ public class ApiRestControleur {
 
         return ResponseEntity.ok("test : " + principal.getName() + "-" + hasUserRole);
     }
+
 
     // getjoueurbypseudo
     @GetMapping("/joueur/{pseudo}")

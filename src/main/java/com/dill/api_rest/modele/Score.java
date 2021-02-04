@@ -8,6 +8,9 @@ public class Score {
     private int scoreJeu;
     private int tempsJeu;
 
+    public Score() {
+    }
+
     public int getIdJeu() {
         return idJeu;
     }

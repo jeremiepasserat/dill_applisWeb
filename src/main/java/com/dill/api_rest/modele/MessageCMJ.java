@@ -15,6 +15,9 @@ public class MessageCMJ {
     @ManyToOne(fetch = FetchType.EAGER)
     Joueur joueur;
 
+    public MessageCMJ() {
+    }
+
     public MessageCMJ(String message, Joueur joueur) {
         this.message = message;
         this.joueur = joueur;

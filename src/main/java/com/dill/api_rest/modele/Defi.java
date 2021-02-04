@@ -13,6 +13,9 @@ public class Defi {
     @ElementCollection
     Collection<QuestionDefi> questions;
 
+    public Defi() {
+    }
+
     public Collection<QuestionDefi> getQuestions() {
         return questions;
     }

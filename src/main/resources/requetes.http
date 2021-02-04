@@ -1,5 +1,5 @@
 GET http://localhost:8080/api/test
-Authorization: Basic user user
+Authorization: Basic admin admin
 
 ###
 GET http://localhost:8080/api/username
@@ -11,4 +11,4 @@ Authorization: Basic admin admin
 
 ###
 GET http://localhost:8080/api/username
-Authorization: Basic hacking $2y$10$KEoOsKYRjb1usAidj3hGMeTUYDRp.EoGnVzYo6/.uRcGTGKR/ds76
+Authorization: Basic hacking $2y$12$z0Tr5keihbunVAKAbNEqPOtnxFl1fbw3kV6JMInQtkKgwxA0QYIBa

@@ -19,6 +19,9 @@ public class QuestionDefi {
         this.reponseQuestion = reponseQuestion;
     }
 
+    public QuestionDefi() {
+    }
+
     public int getNumQuestion() {
         return numQuestion;
     }
