@@ -11,4 +11,8 @@ Authorization: Basic admin admin
 
 ###
 GET http://localhost:8080/api/username
-Authorization: Basic hacking $2y$12$z0Tr5keihbunVAKAbNEqPOtnxFl1fbw3kV6JMInQtkKgwxA0QYIBa
+Authorization: Basic fromage fromage
+
+###
+GET http://localhost:8080/api/username
+Authorization: Basic saucisse $2a$10$u.tYxlkJkjxOKtimhtfcwuP1OFxaFGAMu1OUWbA6u4HEBTzGijgjG

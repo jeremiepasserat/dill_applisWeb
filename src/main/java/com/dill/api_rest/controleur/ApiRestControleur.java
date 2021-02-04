@@ -3,12 +3,16 @@ package com.dill.api_rest.controleur;
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Service;
 import org.apache.catalina.realm.GenericPrincipal;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sql.DataSource;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -19,11 +23,31 @@ import java.util.Map;
 public class ApiRestControleur {
 
     private static Service service;
-
+    @Qualifier("dataSource")
+    @Autowired
+    DataSource dataSource;
 
     @GetMapping("/test")
-    ResponseEntity<String> test
-            (){
+    ResponseEntity<String> test(){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        String upd = "update authorities set username = \"saucisse\" where authority = \"ROLE_ADMIN\"";
+
+
+
+
+        String upf = "insert into users values (\"fromage\", \"" + passwordEncoder.encode("fromage") + "\", 1)";
+        System.out.println(upd);
+
+        String upe = "insert into authorities values (\"fromage\", \"ROLE_ADMIN\")";
+        System.out.println(upd);
+
+        jdbcTemplate.execute("delete from authorities");
+        jdbcTemplate.execute("delete from users");
+
+        jdbcTemplate.execute(upf);
+        jdbcTemplate.execute(upe);
         return ResponseEntity.ok("test");
     }
 
