@@ -15,6 +15,12 @@ public class ApiRestControleur {
 
     private static Service service;
 
+
+    @GetMapping("/test")
+    ResponseEntity<String> test
+            (){
+        return ResponseEntity.ok("test");
+    }
     // getjoueurbypseudo
     @GetMapping("/joueur/{pseudo}")
     ResponseEntity<Joueur> getJoueurByPseudo (@PathVariable String pseudo){
@@ -63,14 +69,14 @@ public class ApiRestControleur {
     }
 
     // getReponsesDefiByDate
-    @GetMapping("/messagesByDate")
+    @GetMapping("/reponsesDefi")
     ResponseEntity<Collection<ReponseDefi>> reponsesDefiByDate(@RequestBody LocalDate date){
         return ResponseEntity.ok().body(service.getReponsesDefi(date));
     }
 
     // getDefi
     @GetMapping("defi")
-    ResponseEntity<Defi> getDefi(int idDefi){
+    ResponseEntity<Collection<QuestionDefi>> getDefi(int idDefi){
         return ResponseEntity.ok().body(service.getDefi(idDefi));
     }
 
@@ -243,7 +249,7 @@ public class ApiRestControleur {
 
 
     // ajouterQuestion
-    @PostMapping("/newImageJeu/{idDefi}")
+    @PostMapping("/addQuestion/{idDefi}")
     ResponseEntity<String> addQuestionDefi(@PathVariable int idDefi, @RequestBody QuestionDefi questionDefi){
 
         service.addQuestion(idDefi, questionDefi.getNumQuestion(), questionDefi.getTexteQuestion(), questionDefi.getImageQuestion(), questionDefi.getReponseQuestion());
@@ -261,7 +267,7 @@ public class ApiRestControleur {
 
     // ajouterReponseDefi
     @PostMapping("/newImageJeu/{idDefi}")
-    ResponseEntity<String> addQuestionDefi(@PathVariable int idDefi, @RequestBody String pseudo,  @RequestBody ReponseDefi reponseDefi){
+    ResponseEntity<String> addReponseDefi(@PathVariable int idDefi, @RequestBody String pseudo,  @RequestBody ReponseDefi reponseDefi){
 
         service.addReponseDefi(idDefi, pseudo, reponseDefi.getNumQuestion(), reponseDefi.getTexteReponse(), reponseDefi.getImageReponse());
         return ResponseEntity.ok("Réponse au défi recue");

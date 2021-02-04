@@ -31,7 +31,7 @@ public interface Service {
     Collection<ReponseDefi> getReponsesDefi(LocalDate date);
 
     // Récupérer toutes les questions d'un défi
-    Defi getDefi (int idDefi);
+    Collection<QuestionDefi> getDefi (int idDefi);
 
     // Récupérer les images d'un Jeu
     Map<Integer, String> getImagesJeu(int idJeu);

@@ -101,7 +101,7 @@ public class ServiceImpl implements Service {
 
 
     @Override
-    public Defi getDefi(int idDefi) {
+    public Collection<QuestionDefi> getDefi(int idDefi) {
         Defi defi = defiDao.find(idDefi);
         return defi.getQuestions();
     }
