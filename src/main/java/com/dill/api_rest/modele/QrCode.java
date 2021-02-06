@@ -1,17 +1,24 @@
 package com.dill.api_rest.modele;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class QrCode {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     int numCode;
     String texteCode;
     int scoreCode;
 
     public QrCode() {
+    }
+
+    public QrCode(String texteCode, int scoreCode) {
+        this.texteCode = texteCode;
+        this.scoreCode = scoreCode;
     }
 
     public int getNumCode() {

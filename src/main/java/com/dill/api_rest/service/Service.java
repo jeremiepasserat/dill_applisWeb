@@ -105,4 +105,12 @@ public interface Service {
     // stocker les réponses des utilisateurs aux défis (utile pour manipuler les photos & les réponses textuelles non traitables directement par l'app)
     void addReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse);
 
+    // Supprimer un qr code
+    void deleteQrCode(int idQrCode);
+
+    // ajouter un qr code
+    void newQrCode(String code, int scoreCode);
+
+    // gérer les connexions
+    boolean login(String pseudo, String password);
 }

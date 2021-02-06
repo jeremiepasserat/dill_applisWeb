@@ -2,13 +2,12 @@ package com.dill.api_rest.service;
 
 import com.dill.api_rest.dao.*;
 import com.dill.api_rest.modele.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ServiceImpl implements Service {
@@ -21,6 +20,9 @@ public class ServiceImpl implements Service {
     private MessageCMJDao messageCMJDao;
     private QrCodeDao qrCodeDao;
     private ReponseDefiDao reponseDefiDao;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public ServiceImpl(BadgeDao badgeDao, DefiDao defiDao, GeolocalisationVilleDao geolocalisationVilleDao, JeuDao jeuDao, JoueurDao joueurDao, MessageCMJDao messageCMJDao, QrCodeDao qrCodeDao, ReponseDefiDao reponseDefiDao) {
         this.badgeDao = badgeDao;
@@ -282,5 +284,25 @@ public class ServiceImpl implements Service {
     public void addReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse) {
         ReponseDefi reponseDefi = new ReponseDefi(idDefi, pseudo, numQuestion, texteReponse, imageReponse);
         reponseDefiDao.create(reponseDefi);
+    }
+
+    @Override
+    @Transactional
+    public void deleteQrCode(int idQrCode) {
+        qrCodeDao.remove(qrCodeDao.find(idQrCode));
+    }
+
+    @Override
+    @Transactional
+    public void newQrCode(String code, int scoreCode) {
+        qrCodeDao.create(new QrCode(code, scoreCode));
+    }
+
+    @Override
+    public boolean login(String pseudo, String password) {
+        Joueur joueur = Optional.ofNullable(joueurDao.find(pseudo)).orElse(null);
+
+        return joueur != null && !passwordEncoder.matches(joueur.getPassword(), passwordEncoder.encode(password));
+
     }
 }

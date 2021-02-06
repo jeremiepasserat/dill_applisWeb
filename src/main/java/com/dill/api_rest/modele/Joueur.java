@@ -10,6 +10,8 @@ public class Joueur {
     @Id
     String pseudo;
 
+    String password;
+
     @OneToMany (fetch = FetchType.LAZY, mappedBy = "joueur",  cascade = CascadeType.ALL)
     Collection<MessageCMJ> messageCMJS;
 
@@ -34,6 +36,14 @@ public class Joueur {
 
     public String getPseudo() {
         return pseudo;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Coordonnees getCoordonneesJoueur() {

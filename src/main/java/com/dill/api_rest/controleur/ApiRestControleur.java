@@ -27,7 +27,7 @@ public class ApiRestControleur {
     @Autowired
     DataSource dataSource;
 
-    @GetMapping("/test")
+  /*  @GetMapping("/test")
     ResponseEntity<String> test(){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
@@ -49,18 +49,16 @@ public class ApiRestControleur {
         jdbcTemplate.execute(upf);
         jdbcTemplate.execute(upe);
         return ResponseEntity.ok("test");
+    }*/
+
+
+    @PostMapping("/login")
+    ResponseEntity<Void>login(@RequestBody String pseudo, @RequestBody String mdp){
+        if (service.login(pseudo, mdp)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
-
-    @GetMapping("/username")
-    ResponseEntity<String> user (Principal principal){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        boolean hasUserRole = authentication.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
-
-        return ResponseEntity.ok("test : " + principal.getName() + "-" + hasUserRole);
-    }
-
 
     // getjoueurbypseudo
     @GetMapping("/joueur/{pseudo}")
@@ -86,7 +84,7 @@ public class ApiRestControleur {
 
     // getnewmessages
     @GetMapping("/messagesByDate")
-    ResponseEntity<Collection<MessageCMJ>> aProximite(@RequestBody LocalDate date){
+    ResponseEntity<Collection<MessageCMJ>> messagesParDate(@RequestBody LocalDate date){
         return ResponseEntity.ok().body(service.getNewMessagesCMJ(date));
     }
 
@@ -136,6 +134,7 @@ public class ApiRestControleur {
     // newJoueur
     @PostMapping("/newJoueur")
     ResponseEntity<String> createJoueur(@RequestBody String pseudo){
+
         service.newJoueur(pseudo);
         return ResponseEntity.ok().body("Joueur créé");
     }
@@ -143,6 +142,7 @@ public class ApiRestControleur {
     // modifierScore
     @PatchMapping("/modifierScore")
     ResponseEntity<String> modifierScore(@RequestBody String pseudo, @RequestBody int idJeu, @RequestBody int scoreJeu){
+
         service.modifierScore(pseudo, idJeu, scoreJeu);
         return ResponseEntity.ok("Score modifié");
     }
@@ -151,6 +151,7 @@ public class ApiRestControleur {
     // modifierTemps
     @PatchMapping("/modifierTemps")
     ResponseEntity<String> modifierTemps(@RequestBody String pseudo, @RequestBody int idJeu, @RequestBody int tempsJeu){
+
         service.modifierTemps(pseudo, idJeu, tempsJeu);
         return ResponseEntity.ok("Temps modifié");
     }
@@ -158,6 +159,7 @@ public class ApiRestControleur {
     // modifierCoords
     @PatchMapping("/modifierCoords")
     ResponseEntity<String> modifierCoords(@RequestBody String pseudo, @RequestBody double longitude, @RequestBody double latitude){
+
         service.modifierCoords(pseudo, longitude, latitude);
         return ResponseEntity.ok("Coordonnées du joueur modifiées");
     }
@@ -174,15 +176,32 @@ public class ApiRestControleur {
     // newBadge
     @PostMapping("/newbadge")
     ResponseEntity<String> createBadge(@RequestBody Badge badge){
+
         service.newBadge(badge.getId(), badge.getNom(), badge.getImage());
         return ResponseEntity.ok().body("Badge créé");
     }
 
     // deleteBadge
-    @DeleteMapping("/deleteJoueur/{idBadge}")
+    @DeleteMapping("/deleteBadge/{idBadge}")
     ResponseEntity<String> deleteBadge(@PathVariable int idBadge){
 
         service.deleteBadge(idBadge);
+        return ResponseEntity.ok("Badge Supprimé");
+    }
+
+    // newQrCode
+    @PostMapping("/newQrCode")
+    ResponseEntity<String> createQrCode(@RequestBody QrCode code){
+
+        service.newQrCode(code.getTexteCode(), code.getNumCode());
+        return ResponseEntity.ok().body("Badge créé");
+    }
+
+    // deleteQrCode
+    @DeleteMapping("/deleteQrCode/{idQrCode}")
+    ResponseEntity<String> deleteQrCode(@PathVariable int idQrCode){
+
+        service.deleteQrCode(idQrCode);
         return ResponseEntity.ok("Badge Supprimé");
     }
 
@@ -190,6 +209,7 @@ public class ApiRestControleur {
     // newGeolocalisation
     @PostMapping("/newPointGeo")
     ResponseEntity<String> createGeolocalisation(@RequestBody GeolocalisationVille geolocalisationVille){
+
         service.newGeolocalisation(geolocalisationVille.getCoordonneesPoint(), geolocalisationVille.getNomPoint());
         return ResponseEntity.ok().body("Nouveau Point de Géolocalisation créé");
     }
@@ -197,12 +217,13 @@ public class ApiRestControleur {
     // modifierGeolocalisation
     @PatchMapping("/modifierGeoloc")
     ResponseEntity<String> modifierGeolocalisation(@RequestBody int idPointGeo, @RequestBody Coordonnees newPoint, @RequestBody String nomPoint){
+
         service.modifierGeolocalisation(idPointGeo, newPoint, nomPoint);
         return ResponseEntity.ok("Coordonnées du Point Géolocalisé modifiées");
     }
 
     // deleteGeolocalisation
-    @DeleteMapping("/deleteJeu/{pointGeo}")
+    @DeleteMapping("/deletePointGeo/{pointGeo}")
     ResponseEntity<String> deletePointGeo(@PathVariable int pointGeo){
 
         service.deleteGeolocalisation(pointGeo);
@@ -212,6 +233,7 @@ public class ApiRestControleur {
     // newJeu
     @PostMapping("/newJeu")
     ResponseEntity<String> createJeu(@RequestBody Jeu jeu){
+
         service.newJeu(jeu.getNomJeu(), jeu.getLogoJeu());
         return ResponseEntity.ok().body("Jeu créé");
     }
@@ -219,19 +241,18 @@ public class ApiRestControleur {
     // modifierLogoJeu
     @PatchMapping("/modifierLogoJeu/{idJeu}")
     ResponseEntity<String> modifierLogoJeu(@PathVariable int idJeu, @RequestBody String newLogo){
+
         service.modifierLogoJeu(idJeu, newLogo);
         return ResponseEntity.ok("Logo jeu modifié");
     }
 
-    // purgeImages
+    // Nettoyer toutes les images d'un jeu
     @PatchMapping("/purgeImagesJeu/{idJeu}")
     ResponseEntity<String> purgeImagesJeu(@PathVariable int idJeu){
 
         service.purgeImagesJeu(idJeu);
         return ResponseEntity.ok("Images jeu purgées");
-
     }
-
 
     // addImage
     @PostMapping("/newImageJeu/{idJeu}")
@@ -239,15 +260,6 @@ public class ApiRestControleur {
 
         service.addImage(idJeu, idImage, image);
         return ResponseEntity.ok("Image insérée");
-
-    }
-
-    // Nettoyer toutes les images d'un jeu
-    @DeleteMapping("/purgerImagesJeu/{idJeu}")
-    ResponseEntity<String> purgerImagesJeu(@PathVariable int idJeu){
-
-        service.purgeImagesJeu(idJeu);
-        return ResponseEntity.ok("Images jeu purgées");
 
     }
 
@@ -262,12 +274,13 @@ public class ApiRestControleur {
     // newMessage
     @PostMapping("/newMessage")
     ResponseEntity<String> createMessage(@RequestBody MessageCMJ messageCMJ){
+
         service.newMessage(messageCMJ.getMessage(), messageCMJ.getJoueur().getPseudo());
         return ResponseEntity.ok().body("Message créé");
     }
 
     // deleteMessage
-    @DeleteMapping("/deleteJoueur/{idMessage}")
+    @DeleteMapping("/deleteMessage/{idMessage}")
     ResponseEntity<String> deleteMessage(@PathVariable int idMessage){
         service.deleteMessage(idMessage);
         return ResponseEntity.ok("Message Supprimé");
@@ -281,7 +294,7 @@ public class ApiRestControleur {
     }
 
     // deleteDefi
-    @DeleteMapping("/deleteJoueur/{idDefi}")
+    @DeleteMapping("/deleteDefi/{idDefi}")
     ResponseEntity<String> deleteDefi(@PathVariable int idDefi){
 
         service.deleteDefi(idDefi);
@@ -307,7 +320,7 @@ public class ApiRestControleur {
     }
 
     // ajouterReponseDefi
-    @PostMapping("/newImageJeu/{idDefi}")
+    @PostMapping("/reponseDefi/{idDefi}")
     ResponseEntity<String> addReponseDefi(@PathVariable int idDefi, @RequestBody String pseudo,  @RequestBody ReponseDefi reponseDefi){
 
         service.addReponseDefi(idDefi, pseudo, reponseDefi.getNumQuestion(), reponseDefi.getTexteReponse(), reponseDefi.getImageReponse());
