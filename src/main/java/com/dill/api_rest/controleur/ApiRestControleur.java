@@ -60,6 +60,12 @@ public class ApiRestControleur {
         return ResponseEntity.notFound().build();
     }
 
+    @PostMapping("/cgu")
+    ResponseEntity<Void>login(@RequestBody String pseudo, @RequestBody LocalDate date){
+        service.validerCGU(pseudo, date);
+        return ResponseEntity.ok().build();
+    }
+
     // getjoueurbypseudo
     @GetMapping("/joueur/{pseudo}")
     ResponseEntity<Joueur> getJoueurByPseudo (@PathVariable String pseudo){

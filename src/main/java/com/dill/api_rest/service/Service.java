@@ -113,4 +113,7 @@ public interface Service {
 
     // gérer les connexions
     boolean login(String pseudo, String password);
+
+    // valider ou revalider les cgu
+    void validerCGU(String pseudo, LocalDate date);
 }

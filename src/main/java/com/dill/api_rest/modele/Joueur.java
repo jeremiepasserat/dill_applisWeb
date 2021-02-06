@@ -1,6 +1,8 @@
 package com.dill.api_rest.modele;
 
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 
@@ -11,6 +13,11 @@ public class Joueur {
     String pseudo;
 
     String password;
+
+    LocalDate acceptationCGU;
+
+    @Embedded
+    Parent parent;
 
     @OneToMany (fetch = FetchType.LAZY, mappedBy = "joueur",  cascade = CascadeType.ALL)
     Collection<MessageCMJ> messageCMJS;
@@ -28,6 +35,14 @@ public class Joueur {
     Collection<GeolocalisationVille> pointsVisites;
 
     public Joueur() {
+    }
+
+    public LocalDate getAcceptationCGU() {
+        return acceptationCGU;
+    }
+
+    public void setAcceptationCGU(LocalDate acceptationCGU) {
+        this.acceptationCGU = acceptationCGU;
     }
 
     public Joueur(String pseudo) {
@@ -80,7 +95,13 @@ public class Joueur {
         this.scoresJeu = scoresJeu;
     }
 
+    public Parent getParent() {
+        return parent;
+    }
 
+    public void setParent(Parent parent) {
+        this.parent = parent;
+    }
 
     public void setCoordonneesJoueur(Coordonnees coordonneesJoueur) {
         this.coordonneesJoueur = coordonneesJoueur;

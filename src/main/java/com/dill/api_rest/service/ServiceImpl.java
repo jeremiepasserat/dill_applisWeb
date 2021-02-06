@@ -305,4 +305,12 @@ public class ServiceImpl implements Service {
         return joueur != null && !passwordEncoder.matches(joueur.getPassword(), passwordEncoder.encode(password));
 
     }
+
+    @Override
+    @Transactional
+    public void validerCGU(String pseudo, LocalDate date) {
+        Joueur joueur = joueurDao.find(pseudo);
+        joueur.setAcceptationCGU(date);
+        joueurDao.edit(joueur);
+    }
 }
