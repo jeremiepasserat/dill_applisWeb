@@ -51,7 +51,7 @@ public class ApiRestControleur {
         return ResponseEntity.ok("test");
     }*/
 
-
+    // Se connecter
     @PostMapping("/login")
     ResponseEntity<Void>login(@RequestBody String pseudo, @RequestBody String mdp){
         if (service.login(pseudo, mdp)){
@@ -60,8 +60,9 @@ public class ApiRestControleur {
         return ResponseEntity.notFound().build();
     }
 
+    // Valider les cgu
     @PostMapping("/cgu")
-    ResponseEntity<Void>login(@RequestBody String pseudo, @RequestBody LocalDate date){
+    ResponseEntity<Void>validerCgu(@RequestBody String pseudo, @RequestBody LocalDate date){
         service.validerCGU(pseudo, date);
         return ResponseEntity.ok().build();
     }
@@ -120,7 +121,7 @@ public class ApiRestControleur {
     }
 
     // getDefi
-    @GetMapping("defi")
+    @GetMapping("/defi")
     ResponseEntity<Collection<QuestionDefi>> getDefi(int idDefi){
         return ResponseEntity.ok().body(service.getDefi(idDefi));
     }
@@ -199,7 +200,7 @@ public class ApiRestControleur {
     @PostMapping("/newQrCode")
     ResponseEntity<String> createQrCode(@RequestBody QrCode code){
 
-        service.newQrCode(code.getTexteCode(), code.getNumCode());
+        service.newQrCode(code.getTexteCode(), code.getScoreCode());
         return ResponseEntity.ok().body("Badge créé");
     }
 
@@ -208,7 +209,7 @@ public class ApiRestControleur {
     ResponseEntity<String> deleteQrCode(@PathVariable int idQrCode){
 
         service.deleteQrCode(idQrCode);
-        return ResponseEntity.ok("Badge Supprimé");
+        return ResponseEntity.ok("Qr Code Supprimé");
     }
 
 
@@ -241,7 +242,7 @@ public class ApiRestControleur {
     ResponseEntity<String> createJeu(@RequestBody Jeu jeu){
 
         service.newJeu(jeu.getNomJeu(), jeu.getLogoJeu());
-        return ResponseEntity.ok().body("Jeu créé");
+        return ResponseEntity.ok().body("Jeu créé" );
     }
 
     // modifierLogoJeu
@@ -318,7 +319,7 @@ public class ApiRestControleur {
     }
 
     // supprimerQuestion
-    @DeleteMapping("/deleteJoueur/{idDefi}/{numQuestion}")
+    @DeleteMapping("/deleteQuestion/{idDefi}/{numQuestion}")
     ResponseEntity<String> deleteQuestion(@PathVariable int idDefi, @PathVariable int numQuestion){
 
         service.deleteQuestion(idDefi, numQuestion);
@@ -327,9 +328,9 @@ public class ApiRestControleur {
 
     // ajouterReponseDefi
     @PostMapping("/reponseDefi/{idDefi}")
-    ResponseEntity<String> addReponseDefi(@PathVariable int idDefi, @RequestBody String pseudo,  @RequestBody ReponseDefi reponseDefi){
+    ResponseEntity<String> addReponseDefi(@PathVariable int idDefi, @RequestBody ReponseDefi reponseDefi){
 
-        service.addReponseDefi(idDefi, pseudo, reponseDefi.getNumQuestion(), reponseDefi.getTexteReponse(), reponseDefi.getImageReponse());
+        service.addReponseDefi(idDefi, reponseDefi.getPseudoJoueur(), reponseDefi.getNumQuestion(), reponseDefi.getTexteReponse(), reponseDefi.getImageReponse());
         return ResponseEntity.ok("Réponse au défi recue");
 
     }
