@@ -1,0 +1,81 @@
+[
+  {
+    "allScores": [
+      {
+        "pseudo": "laboris",
+        "scores": [
+          {
+            "idJeu": 0,
+            "scoreJeu": 4,
+            "tempsJeu": 5
+          },
+          {
+            "idJeu": 1,
+            "scoreJeu": 4,
+            "tempsJeu": 2
+          },
+          {
+            "idJeu": 2,
+            "scoreJeu": 7,
+            "tempsJeu": 8
+          },
+          {
+            "idJeu": 3,
+            "scoreJeu": 4,
+            "tempsJeu": 0
+          }
+        ]
+      },
+      {
+        "pseudo": "adipisicing",
+        "scores": [
+          {
+            "idJeu": 0,
+            "scoreJeu": 9,
+            "tempsJeu": 4
+          },
+          {
+            "idJeu": 1,
+            "scoreJeu": 5,
+            "tempsJeu": 4
+          },
+          {
+            "idJeu": 2,
+            "scoreJeu": 8,
+            "tempsJeu": 2
+          },
+          {
+            "idJeu": 3,
+            "scoreJeu": 10,
+            "tempsJeu": 0
+          }
+        ]
+      },
+      {
+        "pseudo": "officia",
+        "scores": [
+          {
+            "idJeu": 0,
+            "scoreJeu": 1,
+            "tempsJeu": 4
+          },
+          {
+            "idJeu": 1,
+            "scoreJeu": 3,
+            "tempsJeu": 6
+          },
+          {
+            "idJeu": 2,
+            "scoreJeu": 10,
+            "tempsJeu": 9
+          },
+          {
+            "idJeu": 3,
+            "scoreJeu": 9,
+            "tempsJeu": 9
+          }
+        ]
+      }
+    ]
+  }
+]
