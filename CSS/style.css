@@ -254,3 +254,10 @@ aside h2
     empty-cells: hide;
     border: 1px solid black;
 }
+
+/*Page de consultation des utilisateur*/
+
+.Consultation input{
+    display: block;
+     margin: auto;
+}

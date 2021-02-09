@@ -1,5 +1,6 @@
-<?php ?>
-
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -25,7 +26,7 @@ and open the template in the editor.
             </header>
             <nav>
                 <ul>
-                    <li><a href="./connexion.php">Page principal</a></li>
+                    <li><a href="./Page_Principale.php">Page principal</a></li>
                     <li><a href="#">Magazine CMJ</a></li>
                     <li><a href="./Gestion_defis.php">Gestion des défis</a></li>
                     <li><a href="#">Gestion des jeux</a></li>
@@ -38,7 +39,6 @@ and open the template in the editor.
             $data = file_get_contents($file);
             //on décode le contenu du flux sous forme de tableau
             $array_data = json_decode($data, true);
-            //var_dump($array_data[0]['allScores']);
             //tableau contenant tous les utilisateurs avec leurs scores
             $array_score_utilisateur = $array_data[0]['allScores'];
             //tableau avec tous les utilisateurs et leurs score total

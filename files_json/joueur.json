@@ -1,0 +1,119 @@
+[
+  {
+    "joueur": [
+      {
+        "pseudo": "tempor",
+        "password": "mot de passe haché",
+        "acceptationCGU": "2021-02-08",
+        "parent": [
+          {
+            "nom": "Hobbs",
+            "prenom": "Finch",
+            "dateNaissance": "1967-08-02",
+            "mail": "finchhobbs@kangle.com"
+          }
+        ],
+        "messageCMJS": [
+          {
+            "idMessage": 0,
+            "message": "Anim cillum exercitation id reprehenderit id quis sint sint Lorem consequat dolor exercitation aliquip.",
+            "dateMessage": "2021-02-09",
+            "pseudoJoueur": "pseudo"
+          },
+          {
+            "idMessage": 1,
+            "message": "Commodo nisi et commodo sit do sint veniam.",
+            "dateMessage": "2021-02-09",
+            "pseudoJoueur": "pseudo"
+          },
+          {
+            "idMessage": 2,
+            "message": "Qui duis est excepteur irure Lorem ad aliqua sunt officia ad voluptate occaecat.",
+            "dateMessage": "2021-02-09",
+            "pseudoJoueur": "pseudo"
+          },
+          {
+            "idMessage": 3,
+            "message": "Aute reprehenderit dolore ea fugiat culpa deserunt consequat dolor adipisicing incididunt.",
+            "dateMessage": "2021-02-09",
+            "pseudoJoueur": "pseudo"
+          }
+        ],
+        "scoresJeu": [
+          {
+            "idJeu": 0,
+            "scoreJeu": 0,
+            "tempsJeu": 2
+          },
+          {
+            "idJeu": 1,
+            "scoreJeu": 5,
+            "tempsJeu": 0
+          },
+          {
+            "idJeu": 2,
+            "scoreJeu": 2,
+            "tempsJeu": 9
+          },
+          {
+            "idJeu": 3,
+            "scoreJeu": 0,
+            "tempsJeu": 6
+          }
+        ],
+        "coordonneesJoueur": [
+          {
+            "longitude": 84.1403,
+            "latitude": 32.2198
+          }
+        ],
+        "badges": [
+          {
+            "id": 0,
+            "nom": "Culpa do ex sunt tempor laborum elit id nostrud duis.",
+            "image": "elit.jpg"
+          },
+          {
+            "id": 1,
+            "nom": "Id excepteur ad elit cillum irure deserunt fugiat.",
+            "image": "proident.jpg"
+          },
+          {
+            "id": 2,
+            "nom": "Qui fugiat sunt reprehenderit cillum ad excepteur duis aliqua.",
+            "image": "minim.jpg"
+          }
+        ],
+        "pointsVisites": [
+          {
+            "numeroPoint": 0,
+            "coordonnees": [
+              {
+                "longitude": 98.515,
+                "latitude": 42.4552
+              }
+            ]
+          },
+          {
+            "numeroPoint": 1,
+            "coordonnees": [
+              {
+                "longitude": 43.6993,
+                "latitude": 67.4133
+              }
+            ]
+          },
+          {
+            "numeroPoint": 2,
+            "coordonnees": [
+              {
+                "longitude": 19.9474,
+                "latitude": 92.9971
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

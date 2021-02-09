@@ -1,4 +1,19 @@
-<?php ?>
+<?php
+    session_start();
+    if( isset($_POST['email']) && isset($_POST['password'])){
+        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['password'] = $_POST['password'];
+    }
+
+    //les donnees recuperees depuis le fichier json
+    $file = './files_json/allScores.json';
+    //on mets le contenu dans une variable
+    $data = file_get_contents($file);
+    //on décode le contenu du flux sous forme de tableau
+    $array_data = json_decode($data, true);
+    //tableau contenant tous les utilisateurs avec leurs scores
+    $array_score_utilisateur = $array_data[0]['allScores'];
+?>
 
 <!DOCTYPE html>
 <!--
@@ -42,23 +57,23 @@ and open the template in the editor.
                 <article>
                     <h1>Application de la commune de Lamotte-Beuvron</h1>
                     <p id='page_principal'>
-                        Bonjours NomUser,<br/> vous trouverez ci-dessus un menu permettant d'accèder à différentes fonctionnalité.
+                        Bonjours <?php echo $_SESSION['email'];?>,<br/> vous trouverez ci-dessus un menu permettant d'accèder à différentes fonctionnalité.
                     </p>
                 </article>
                 <aside>
                     <h1>Quelques chiffres :</h1>
                     <img src="Images/logo_mairie.png" alt="logo de la mairie"/>
-                    <p>Nombre d'inscrit : 15</p>
-                    <p>Nombre de défis : 52</p>
-                    <p>Nombre de jeux : 10</p>
-                    <p>Nombre d'article dans le CMJ : 60</p>
+                    <p>Nombre d'inscrit : <?php echo count($array_score_utilisateur); ?></p>
+                    <p>Nombre de défis : 0</p>
+                    <p>Nombre de jeux : 0</p>
+                    <p>Nombre d'article dans le CMJ : 0</p>
                 </aside>
             </section>
             <div class='Recherche'>
                 <p>Consulter le profil d'un utilisateur :</p>
-                <form action="connexion.php" method="post">
-                    <label for="Pseudo">Pseudo</label> :
-                    <input type="text" name="Pseudo" id="Pseudo" value="Nom de l'utilisateur" required />
+                <form action="Consultation_user.php" method="post">
+                    <label for="pseudo">Pseudo</label> :
+                    <input type="text" name="pseudo" id="pseudo"  required />
                     <input type="submit" value="Rechercher" />
                 </form>
             </div>

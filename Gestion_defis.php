@@ -1,4 +1,6 @@
-<?php ?>
+<?php
+    session_start();
+?>
 
 <!DOCTYPE html>
 <!--
@@ -25,20 +27,13 @@ and open the template in the editor.
             </header>
             <nav>
                 <ul>
-                    <li><a href="./connexion.php">Page principal</a></li>
+                    <li><a href="./Page_Principale.php">Page principal</a></li>
                     <li><a href="./Classement_general.php">Classement général</a></li>
                     <li><a href="#">Magazine CMJ</a></li>
                     <li><a href="#">Gestion des jeux</a></li>
                 </ul>
             </nav>
-            <?php 
-                echo "Welcome to WayToLearnX.com</br>"; 
-                echo "La page sera actualisée toutes les 3 secondes.";
-
-                header("refresh: 3"); 
-
-                exit; 
-              ?>
+            
         </div>
     </body>
 </html>
