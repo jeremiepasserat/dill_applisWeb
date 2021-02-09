@@ -160,6 +160,14 @@ public class ServiceImpl implements Service {
 
     @Override
     @Transactional
+    public void ajouterPointVisite(String pseudo, int idPointVisite) {
+        Joueur joueur = joueurDao.find(pseudo);
+        joueur.ajouterPointVisite(geolocalisationVilleDao.find(idPointVisite));
+        joueurDao.edit(joueur);
+    }
+
+    @Override
+    @Transactional
     public void deleteJoueur(String pseudo) {
         joueurDao.remove(joueurDao.find(pseudo));
     }
@@ -242,7 +250,7 @@ public class ServiceImpl implements Service {
     @Override
     @Transactional
     public void newMessage(String message, String pseudo) {
-        messageCMJDao.create(new MessageCMJ(message, joueurDao.find(pseudo)));
+        messageCMJDao.create(new MessageCMJ(message, pseudo));
     }
 
     @Override

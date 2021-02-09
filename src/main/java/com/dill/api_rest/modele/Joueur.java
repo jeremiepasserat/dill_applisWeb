@@ -114,4 +114,9 @@ public class Joueur {
     public void setPointsVisites(Collection<GeolocalisationVille> pointsVisites) {
         this.pointsVisites = pointsVisites;
     }
+
+    public void ajouterPointVisite (GeolocalisationVille pointVisite){
+
+        this.pointsVisites.add(pointVisite);
+    }
 }

@@ -51,6 +51,9 @@ public interface Service {
     // charger des coordonnées
     void modifierCoords(String pseudo, double longitude, double latitude);
 
+    // ajouter un point visité
+    void ajouterPointVisite(String pseudo, int idPointVisite);
+
     // Supprimer un joueur
     void deleteJoueur (String pseudo);
 

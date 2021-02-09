@@ -12,15 +12,17 @@ public class MessageCMJ {
     int idMessage;
     String message;
     LocalDate dateMessage;
-    @ManyToOne(fetch = FetchType.EAGER)
-    Joueur joueur;
+    //@ManyToOne(fetch = FetchType.EAGER)
+    //Joueur joueur;
+
+    String pseudoJoueur;
 
     public MessageCMJ() {
     }
 
-    public MessageCMJ(String message, Joueur joueur) {
+    public MessageCMJ(String message, String pseudoJoueur) {
         this.message = message;
-        this.joueur = joueur;
+        this.pseudoJoueur = pseudoJoueur;
         this.dateMessage = LocalDate.now();
     }
 
@@ -36,9 +38,6 @@ public class MessageCMJ {
         return message;
     }
 
-    public Joueur getJoueur() {
-        return joueur;
-    }
 
     public void setIdMessage(int idMessage) {
         this.idMessage = idMessage;
@@ -52,7 +51,11 @@ public class MessageCMJ {
         this.dateMessage = dateMessage;
     }
 
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
+    public String getPseudoJoueur() {
+        return pseudoJoueur;
+    }
+
+    public void setPseudoJoueur(String pseudoJoueur) {
+        this.pseudoJoueur = pseudoJoueur;
     }
 }

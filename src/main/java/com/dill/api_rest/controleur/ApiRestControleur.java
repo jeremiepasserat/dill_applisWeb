@@ -171,6 +171,14 @@ public class ApiRestControleur {
         return ResponseEntity.ok("Coordonnées du joueur modifiées");
     }
 
+    // ajouter un point visite
+    @PatchMapping("/ajouterPointVisite")
+    ResponseEntity<String> ajouterPointVisite(@RequestBody String pseudo, @RequestBody int idPointVisite){
+
+        service.ajouterPointVisite(pseudo, idPointVisite);
+        return ResponseEntity.ok("point visité ajouté");
+    }
+
     // deleteJoueur
     @DeleteMapping("/deleteJoueur/{pseudo}")
     ResponseEntity<String> deleteJoueur(@PathVariable String pseudo){
@@ -282,7 +290,7 @@ public class ApiRestControleur {
     @PostMapping("/newMessage")
     ResponseEntity<String> createMessage(@RequestBody MessageCMJ messageCMJ){
 
-        service.newMessage(messageCMJ.getMessage(), messageCMJ.getJoueur().getPseudo());
+        service.newMessage(messageCMJ.getMessage(), messageCMJ.getPseudoJoueur());
         return ResponseEntity.ok().body("Message créé");
     }
 
