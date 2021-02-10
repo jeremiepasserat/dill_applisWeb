@@ -57,31 +57,30 @@ and open the template in the editor.
                 //on gère l'affichage si on a trouvé l'utilisateur
 
                 if (count($array_utilisateur)>0){
-                    echo "<div id='tableau_consultation'  >";
-                    echo "<table style=\"border-radius: 10px;border: 3px solid red;border-spacing: 0px;\">"
+                    echo "<table>"
                             . "<caption>Fiche d'information</caption>";
                     for ($i = 0; $i <count($array_utilisateur); $i++){ 
                         echo "<tr>";
                         //On sais pas avance qu'il y aura 7 colonnes au max
                         switch (key($array_utilisateur)){
                             case 'pseudo':
-                                echo "<th style=\"border-top = none;border-left: none;\"> Pseudonyme de l'utilisateur : </th>"
-                                    . "<td colspan = 6 style=\"border-top = none;border-right: none;\"> ".current($array_utilisateur)."</td>";
+                                echo "<th class='cons_table_top_left' style=\"background-color: #fc7676 \"> Pseudonyme de l'utilisateur : </th>"
+                                    . "<td colspan = 6 style=\"border-top: none;\"> ".current($array_utilisateur)."</td>";
                                 break;
                             case 'password':
-                                echo "<th style=\"border-left: none;\"> Mot de passe de l'utilisateur : </th>"
-                                    . "<td colspan = 6 style=\"border-right: none;\"> ".current($array_utilisateur)."</td>";
+                                echo "<th class='cons_table_left' style=\"background-color: #fcdf76 \"> Mot de passe de l'utilisateur : </th>"
+                                    . "<td colspan = 6 > ".current($array_utilisateur)."</td>";
                                 break;
                             case 'acceptationCGU':
-                                echo "<th style=\"border-left: none;\"> date de création du compte : </th>"
-                                    . "<td colspan = 6 style=\"border-right: none;\">".current($array_utilisateur)."</td>";
+                                echo "<th class='cons_table_left' style=\"background-color: #cbff73 \"> date de création du compte : </th>"
+                                    . "<td colspan = 6>".current($array_utilisateur)."</td>";
                                 break;
                             case 'parent':
                                 //On a un tableau contenant les informations des parents
                                 $array_parents = current($array_utilisateur);
                                 $nombre_parent = count($array_parents);
                                 //parent possede 4 info (donc quatre lignes) on fusion les $nombre_parent * 4 lignes
-                                echo "<th rowspan=".($nombre_parent*4)." style=\"border-left: none;\"> Information des parents : </th>";
+                                echo "<th rowspan=".($nombre_parent*4)." class='cons_table_left' style=\"background-color: #76fc92 \"> Information des parents : </th>";
                                 
                                 for ($boucle_parents = 0; $boucle_parents<$nombre_parent; $boucle_parents++){
                                     //on récupère les infos associées aux parents
@@ -91,23 +90,23 @@ and open the template in the editor.
                                         switch (key($infos_associees)){
                                             //on affiche les informations
                                             case 'nom':
-                                                echo "<td> Nom du parent : </td>"
-                                                . "<td colspan = 5 style=\"border-right: none;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;white-space: nowrap ;\"> Nom du parent : </td>"
+                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 echo "</tr><tr>";
                                                 break;
                                             case 'prenom':
-                                                echo "<td> Prénom du parent : </td>"
-                                                . "<td colspan = 5 style=\"border-right: none;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> Prénom du parent : </td>"
+                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 echo "</tr><tr>";
                                                 break;
                                             case 'dateNaissance':
-                                                echo "<td > Date de naissance : </td>"
-                                                . "<td colspan = 5 style=\"border-right: none;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> Date de naissance : </td>"
+                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 echo "</tr><tr>";
                                                 break;
                                             case 'mail':
-                                                echo "<td> Adresse mail : </td>"
-                                                . "<td colspan = 5 style=\"border-right: none;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> Adresse mail : </td>"
+                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 break;
                                         }
                                         next($infos_associees);
@@ -120,9 +119,9 @@ and open the template in the editor.
                                 $nombre_message = count($array_messages);
                                 //On trie le tableau par ordre chronologique des dates
                                 $date_publication = array_column($array_messages,'dateMessage');
-                                array_multisort($date_publication, SORT_STRING, $array_messages);
+                                array_multisort($date_publication, SORT_STRING,SORT_DESC, $array_messages);
                                 /*message possede 4 info on fusionne les $nombre_message+1 lignes*/
-                                echo "<th rowspan =".($nombre_message+1)." style=\"border-left: none;\"> messages envoyés : </th>";
+                                echo "<th rowspan =".($nombre_message+1)." class='cons_table_left' style=\"background-color: #73fff8 \"> messages envoyés : </th>";
                                 for ($boucle_messages = 0; $boucle_messages<$nombre_message; $boucle_messages++){
                                     //on récupère les infos associées aux messages
                                     $infos_associees = $array_messages[$boucle_messages];
@@ -132,12 +131,12 @@ and open the template in the editor.
                                             //on affiche les informations
                                             case 'message':
                                                 echo "<tr>";
-                                                echo "<td style=\"white-space: nowrap;\"> contenu du message : </td>"
-                                                . "<td colspan = 3 style=\" word-wrap: normal;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> contenu du message : </td>"
+                                                . "<td colspan = 3 > ".current($infos_associees)."</td>";
                                                 break;
                                             case 'dateMessage':
-                                                echo "<td style=\"white-space: nowrap;\"> publié le : </td>"
-                                                . "<td style=\"white-space: nowrap;border-right: none;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> publié le : </td>"
+                                                . "<td > ".current($infos_associees)."</td>";
                                                 echo "</tr>";
                                                 break;
                                             default:
@@ -152,7 +151,7 @@ and open the template in the editor.
                                 $array_score = current($array_utilisateur);
                                 $nombre_score = count($array_score);
                                 /*scores possede 3 info donc on fusionne ces $nombre_score+1 lignes*/
-                                echo "<th rowspan=".($nombre_score+1)." style=\"white-space: nowrap;border-left: none;\"> score du joueur: </th>";
+                                echo "<th rowspan=".($nombre_score+1)." class='cons_table_left' style=\"background-color: #7382ff \"> score du joueur: </th>";
                                 for ($boucle_score = 0; $boucle_score<$nombre_score; $boucle_score++){
                                     //on récupère les infos associées aux messages
                                     $infos_associees = $array_score[$boucle_score];
@@ -161,16 +160,16 @@ and open the template in the editor.
                                         switch (key($infos_associees)){
                                             //on affiche les informations
                                             case 'idJeu':
-                                                echo "<tr><td> jeu numéro : </td>"
+                                                echo "<tr><td style=\"font-weight: bold;text-decoration: underline;\"> jeu numéro : </td>"
                                                 . "<td> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'scoreJeu':
-                                                echo "<td> score de : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> score de : </td>"
                                                 . "<td> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'tempsJeu':
-                                                echo "<td style=\"white-space: nowrap;\"> temps passé : </td>"
-                                                . "<td style=\"white-space: nowrap;border-right: none;\"> ".current($infos_associees)." heure(s)</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> temps passé : </td>"
+                                                . "<td > ".current($infos_associees)." heure(s)</td>";
                                                 echo "</tr>";
                                                 break;
                                             
@@ -184,7 +183,7 @@ and open the template in the editor.
                                 $array_badge = current($array_utilisateur);
                                 $nombre_badge = count($array_badge);
                                 /*scores possede 3 info donc on fusionne ces $nombre_badge+1 lignes*/
-                                echo "<th rowspan=".($nombre_badge+1)." style=\"border-bottom = none; border-left: none;\"> badge du joueur: </th>";
+                                echo "<th rowspan=".($nombre_badge+1)." class='cons_table_bottom_left' style=\"background-color: #cf75fd \"> badge du joueur: </th>";
                                 for ($boucle_badge = 0; $boucle_badge<$nombre_badge; $boucle_badge++){
                                     //on récupère les infos associées aux messages
                                     $infos_associees = $array_badge[$boucle_badge];
@@ -193,16 +192,16 @@ and open the template in the editor.
                                         switch (key($infos_associees)){
                                             //on affiche les informations
                                             case 'id':
-                                                echo "<tr style=\"border-bottom = none; \"><td> badge numéro : </td>"
+                                                echo "<tr class='cons_table_bottom'><td style=\"font-weight: bold;text-decoration: underline;\"> badge numéro : </td>"
                                                 . "<td> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'nom':
-                                                echo "<td style=\"white-space: nowrap;\"> nom du badge : </td>"
-                                                . "<td style=\"width: 40px; word-wrap: normal;\"> ".current($infos_associees)."</td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> nom du badge : </td>"
+                                                . "<td style=\"width: 40px;\"> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'image':
-                                                echo "<td style=\"white-space: nowrap;\"> badge : </td>"
-                                                . "<td style=\"white-space: nowrap;border-right: none;\"> ".current($infos_associees)." </td>";
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> badge : </td>"
+                                                . "<td> ".current($infos_associees)." </td>";
                                                 echo "</tr>";
                                                 break;
                                             
@@ -216,7 +215,7 @@ and open the template in the editor.
                         echo "</tr>";
                     }
                     echo "</table>";
-                    echo "</div>";
+                    
                 }else{
                     echo "<p>L'utilisateur que vous recherche n'existe pas <br/>"
                     . "<a href = \"Page_Principale.php\"><input class=\"bouton\" type=\"button\" value=\"retour\"></a></p>";
