@@ -21,7 +21,6 @@ public class ApiRestApplication {
 
     public static void main(String[] args) {
 
-        PeuplerLaDb peuplerLaDb = new PeuplerLaDb();
         SpringApplication.run(ApiRestApplication.class, args);
 
     }

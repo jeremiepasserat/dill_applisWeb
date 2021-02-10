@@ -19,7 +19,7 @@ public class Joueur {
     @Embedded
     Parent parent;
 
-    @OneToMany (fetch = FetchType.LAZY, mappedBy = "joueur",  cascade = CascadeType.ALL)
+    @OneToMany (fetch = FetchType.LAZY)
     Collection<MessageCMJ> messageCMJS;
 
     @ElementCollection

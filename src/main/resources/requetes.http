@@ -10,8 +10,9 @@ GET http://localhost:8080/api/username
 Authorization: Basic admin admin
 
 ###
-GET http://localhost:8080/api/username
+GET http://localhost:8080/api/badges
 Authorization: Basic fromage fromage
+
 
 ###
 GET http://localhost:8080/api/username

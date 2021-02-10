@@ -1,6 +1,7 @@
 package com.dill.api_rest.service;
 
 import com.dill.api_rest.modele.*;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collection;
