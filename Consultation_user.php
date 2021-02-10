@@ -20,7 +20,7 @@ and open the template in the editor.
 <html>
     <head>
         <title>Classement général</title>
-        <link rel="stylesheet" href="./CSS/style.css">
+        <link rel="stylesheet" href="./CSS/style_consultation.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -95,17 +95,17 @@ and open the template in the editor.
                                                 echo "</tr><tr>";
                                                 break;
                                             case 'prenom':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> Prénom du parent : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Prénom du parent : </td>"
                                                 . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 echo "</tr><tr>";
                                                 break;
                                             case 'dateNaissance':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> Date de naissance : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Date de naissance : </td>"
                                                 . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 echo "</tr><tr>";
                                                 break;
                                             case 'mail':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> Adresse mail : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Adresse mail : </td>"
                                                 . "<td colspan = 5 > ".current($infos_associees)."</td>";
                                                 break;
                                         }
@@ -131,11 +131,11 @@ and open the template in the editor.
                                             //on affiche les informations
                                             case 'message':
                                                 echo "<tr>";
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> contenu du message : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> contenu du message : </td>"
                                                 . "<td colspan = 3 > ".current($infos_associees)."</td>";
                                                 break;
                                             case 'dateMessage':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> publié le : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> publié le : </td>"
                                                 . "<td > ".current($infos_associees)."</td>";
                                                 echo "</tr>";
                                                 break;
@@ -160,15 +160,15 @@ and open the template in the editor.
                                         switch (key($infos_associees)){
                                             //on affiche les informations
                                             case 'idJeu':
-                                                echo "<tr><td style=\"font-weight: bold;text-decoration: underline;\"> jeu numéro : </td>"
+                                                echo "<tr><td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> jeu numéro : </td>"
                                                 . "<td> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'scoreJeu':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> score de : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> score de : </td>"
                                                 . "<td> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'tempsJeu':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> temps passé : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> temps passé : </td>"
                                                 . "<td > ".current($infos_associees)." heure(s)</td>";
                                                 echo "</tr>";
                                                 break;
@@ -192,15 +192,15 @@ and open the template in the editor.
                                         switch (key($infos_associees)){
                                             //on affiche les informations
                                             case 'id':
-                                                echo "<tr class='cons_table_bottom'><td style=\"font-weight: bold;text-decoration: underline;\"> badge numéro : </td>"
+                                                echo "<tr class='cons_table_bottom'><td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> badge numéro : </td>"
                                                 . "<td> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'nom':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> nom du badge : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> nom du badge : </td>"
                                                 . "<td style=\"width: 40px;\"> ".current($infos_associees)."</td>";
                                                 break;
                                             case 'image':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;\"> badge : </td>"
+                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> badge : </td>"
                                                 . "<td> ".current($infos_associees)." </td>";
                                                 echo "</tr>";
                                                 break;

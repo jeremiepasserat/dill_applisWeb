@@ -62,7 +62,7 @@ and open the template in the editor.
                         <th>Nom utilisateur</th>
                         <th>Score</th>
                         <th>Classement</th>
-                        <th></th>
+                        <th style="border-top:none;border-right: none; "></th>
                     </tr>
                     <?php
                     
@@ -76,7 +76,9 @@ and open the template in the editor.
                                 "<td><button>Consulter</button></td>";
                         next($array_score_total);
                         $classement++;
+                        echo "</tr>";
                     }
+                    echo "</table>";
                     ?>
                     
 
