@@ -19,7 +19,7 @@ and open the template in the editor.
             <header>
                 <div id="titre_principale">
                     <div id="logo">
-                        <img src="./Images/logo.PNG" alt="Logo de l'appli" />
+                        <a href="Page_Principale.php"><img src="./Images/logo.PNG" alt="Logo de l'appli" /><a/>
                         <h1>Lamotte Beuvron</h1>
                     </div>
                 </div>                   
@@ -70,10 +70,10 @@ and open the template in the editor.
                     $classement = 1;
                     foreach ($array_score_total as $row){
                         echo "<tr>".
-                                "<th>".key($array_score_total)."</th>".
-                                "<th>".current($array_score_total)."</th>".
-                                "<th>".$classement."</th>".
-                                "<th><button>Consulter</button></th>";
+                                "<td>".key($array_score_total)."</td>".
+                                "<td>".current($array_score_total)."</td>".
+                                "<td>".$classement."</td>".
+                                "<td><button>Consulter</button></td>";
                         next($array_score_total);
                         $classement++;
                     }

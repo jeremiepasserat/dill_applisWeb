@@ -33,7 +33,7 @@ and open the template in the editor.
             <header>
                 <div id="titre_principale">
                     <div id="logo">
-                        <img src="./Images/logo.PNG" alt="Logo de l'appli" />
+                        <a href="Page_Principale.php"><img src="./Images/logo.PNG" alt="Logo de l'appli" /><a/>
                         <h1>Lamotte Beuvron</h1>
                     </div>
                 </div>                   

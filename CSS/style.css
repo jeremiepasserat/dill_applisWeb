@@ -86,7 +86,7 @@ nav ul
     display: flex;
     justify-content: space-between;
     background-color: darkslategrey;
-    padding: 5px 30px 5px 30px ;
+    padding: 5px 70px 5px 0px ;
     
     
 }
@@ -261,3 +261,47 @@ aside h2
     display: block;
      margin: auto;
 }
+.Consultation p{
+    text-align: center;
+}
+
+.Consultation ul
+{
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    background-color: darkslategrey;
+    padding: 5px 70px 5px 40px ;
+    
+    
+}
+
+
+.Consultation nav a
+{
+    font-size: 1.3em;
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.Consultation nav a:hover
+{
+    color: #fe9718;
+    border: 3px solid #fe9718;
+    border-radius: 10px
+}
+
+
+.Consultation td, th 
+{
+    empty-cells: hide;
+    border: 1px solid red;
+    padding: 15px 5px 15px 5px;
+}
+
+#tableau_consultation div{
+    border-radius: 10px;
+    border: 1px solid red;
+}
+
