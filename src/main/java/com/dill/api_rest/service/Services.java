@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
 
-public interface Service {
+public interface Services {
 
     // pour charger les informations d'un joueur
     Joueur getJoueurByPseudo (String pseudo);

@@ -1,19 +1,13 @@
 package com.dill.api_rest.controleur;
 
 import com.dill.api_rest.modele.*;
-import com.dill.api_rest.service.Service;
-import org.apache.catalina.realm.GenericPrincipal;
+import com.dill.api_rest.service.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
@@ -22,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ApiRestControleur {
 
-    private static Service service;
+    private static Services service;
     @Qualifier("dataSource")
     @Autowired
     DataSource dataSource;

@@ -1,6 +1,8 @@
 package com.dill.api_rest.service;
 
 import com.dill.api_rest.dao.*;
+import com.dill.api_rest.dao.jpa.BadgeDaoImpl;
+import com.dill.api_rest.dao.jpa.DefiDaoImpl;
 import com.dill.api_rest.modele.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,7 +12,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ServiceImpl implements Service {
+public class ServicesImpl implements Services {
 
     private BadgeDao badgeDao;
     private DefiDao defiDao;
@@ -24,9 +26,9 @@ public class ServiceImpl implements Service {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public ServiceImpl(BadgeDao badgeDao, DefiDao defiDao, GeolocalisationVilleDao geolocalisationVilleDao, JeuDao jeuDao, JoueurDao joueurDao, MessageCMJDao messageCMJDao, QrCodeDao qrCodeDao, ReponseDefiDao reponseDefiDao) {
-        this.badgeDao = badgeDao;
-        this.defiDao = defiDao;
+    public ServicesImpl() {
+        this.badgeDao = new BadgeDaoImpl(Badge.class);
+        this.defiDao = new DefiDaoImpl(Defi.class);
         this.geolocalisationVilleDao = geolocalisationVilleDao;
         this.jeuDao = jeuDao;
         this.joueurDao = joueurDao;

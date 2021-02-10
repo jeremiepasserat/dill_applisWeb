@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -17,11 +18,11 @@ import static org.springframework.orm.hibernate5.SessionFactoryUtils.getDataSour
 @SpringBootApplication
 public class ApiRestApplication {
 
-    @Qualifier("dataSource")
-
 
     public static void main(String[] args) {
-         SpringApplication.run(ApiRestApplication.class, args);
+
+        PeuplerLaDb peuplerLaDb = new PeuplerLaDb();
+        SpringApplication.run(ApiRestApplication.class, args);
 
     }
 
