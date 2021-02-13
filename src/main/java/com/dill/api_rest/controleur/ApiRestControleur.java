@@ -2,13 +2,10 @@ package com.dill.api_rest.controleur;
 
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Services;
-import com.dill.api_rest.service.ServicesImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;

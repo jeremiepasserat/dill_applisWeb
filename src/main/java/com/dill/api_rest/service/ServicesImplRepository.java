@@ -1,6 +1,5 @@
 package com.dill.api_rest.service;
 
-import com.dill.api_rest.dao.ReponseDefiDao;
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,10 +139,8 @@ public class ServicesImplRepository implements Services {
     @Override
     @Transactional
     public void newBadge(int idBadge, String nomBadge, String imageBadge) {
+
         Badge badge = new Badge(idBadge, nomBadge, imageBadge);
-
-        System.out.println("Je le ai créé un badge ptdr");
-
         badgeRepository.save(badge);
 
     }
