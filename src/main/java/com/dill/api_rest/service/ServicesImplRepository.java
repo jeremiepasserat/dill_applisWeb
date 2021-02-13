@@ -3,17 +3,16 @@ package com.dill.api_rest.service;
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-@Component
+//@Component
 public class ServicesImplRepository implements Services {
 
     @Autowired
@@ -24,6 +23,9 @@ public class ServicesImplRepository implements Services {
 
     @Autowired
     GeolocalisationVilleRepository geolocalisationVilleRepository;
+
+    @Autowired
+    JoueurRepository joueurRepository;
 
     @Autowired
     JeuRepository jeuRepository;
@@ -52,33 +54,39 @@ public class ServicesImplRepository implements Services {
 
 
     @Override
-    public Joueur getJoueurByPseudo(String pseudo) {
-        return null;
+    public Optional<Joueur> getJoueurByPseudo(String pseudo) {
+        return joueurRepository.findById(pseudo);
     }
 
     @Override
     public Map<String, Collection<Score>> getAllScoresJoueurs() {
-        return null;
+
+        Collection<Joueur> joueurs = joueurRepository.findAll();
+
+        return joueurs.stream().collect(Collectors.toMap(Joueur::getPseudo, Joueur::getScoresJeu));
     }
 
     @Override
     public Map<String, Coordonnees> getJoueursAProximite() {
-        return null;
+
+        Collection<Joueur> joueurs = joueurRepository.findAll();
+
+        return joueurs.stream().collect(Collectors.toMap(Joueur::getPseudo, Joueur::getCoordonneesJoueur));
     }
 
     @Override
     public Collection<MessageCMJ> getNewMessagesCMJ(LocalDate date) {
-        return null;
+        return messageCMJRepository.findAll().stream().filter(messageCMJ -> messageCMJ.getDateMessage() == date).collect(Collectors.toCollection(ArrayList::new));
     }
 
     @Override
     public Collection<QrCode> getQrCodes() {
-        return null;
+        return qrCodeRepository.findAll();
     }
 
     @Override
     public Collection<GeolocalisationVille> getPointsAVisiter() {
-        return null;
+        return geolocalisationVilleRepository.findAll();
     }
 
     @Override
@@ -88,52 +96,67 @@ public class ServicesImplRepository implements Services {
 
     @Override
     public Collection<ReponseDefi> getReponsesDefi(LocalDate date) {
-        return null;
+        return reponseDefiRepository.findAll();
     }
 
     @Override
     public Collection<QuestionDefi> getDefi(int idDefi) {
-        return null;
+        return defiRepository.findById(idDefi).orElseThrow().getQuestions();
     }
 
     @Override
     public Map<Integer, String> getImagesJeu(int idJeu) {
-        return null;
+        return jeuRepository.findById(idJeu).orElseThrow().getImagesJeu();
     }
 
     @Override
     public String getLogoJeu(int idJeu) {
-        return null;
+        return jeuRepository.findById(idJeu).orElseThrow().getLogoJeu();
     }
 
     @Override
-    public void newJoueur(String pseudo) {
-
+    @Transactional
+    public void newJoueur(String pseudo, String password, LocalDate acceptationCGU, Parent parent) {
+       joueurRepository.save(new Joueur(pseudo, password, acceptationCGU, parent));
     }
 
     @Override
+    @Transactional
     public void modifierScore(String pseudo, int idJeu, int scoreJeu) {
-
+        Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
+        joueur.modifierScore(idJeu, scoreJeu);
+        joueurRepository.save(joueur);
     }
 
     @Override
+    @Transactional
     public void modifierTemps(String pseudo, int idJeu, int tempsJeu) {
-
+        Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
+        joueur.modifierTemps(idJeu, tempsJeu);
+        joueurRepository.save(joueur);
     }
 
     @Override
+    @Transactional
     public void modifierCoords(String pseudo, double longitude, double latitude) {
 
+        Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
+        joueur.setCoordonneesJoueur(new Coordonnees(longitude, latitude));
+        joueurRepository.save(joueur);
     }
 
     @Override
+    @Transactional
     public void ajouterPointVisite(String pseudo, int idPointVisite) {
-
+        Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
+        joueur.ajouterPointVisite(geolocalisationVilleRepository.findById(idPointVisite).orElseThrow());
+        joueurRepository.save(joueur);
     }
 
     @Override
+    @Transactional
     public void deleteJoueur(String pseudo) {
-
+        joueurRepository.deleteById(pseudo);
     }
 
     @Override
@@ -146,102 +169,140 @@ public class ServicesImplRepository implements Services {
     }
 
     @Override
+    @Transactional
     public void deleteBadge(int idBadge) {
-
+        badgeRepository.deleteById(idBadge);
     }
 
     @Override
+    @Transactional
     public void newGeolocalisation(Coordonnees newPoint, String nomPoint) {
-
+        geolocalisationVilleRepository.save(new GeolocalisationVille(newPoint, nomPoint));
     }
 
     @Override
+    @Transactional
     public void modifierGeolocalisation(int idGeolocalisation, Coordonnees newPoint, String nomPoint) {
+        GeolocalisationVille geolocalisationVille = geolocalisationVilleRepository.findById(idGeolocalisation).orElseThrow();
+        geolocalisationVille.setNomPoint(nomPoint);
+        geolocalisationVille.setCoordonneesPoint(newPoint);
+        geolocalisationVilleRepository.save(geolocalisationVille);
 
     }
 
     @Override
+    @Transactional
     public void deleteGeolocalisation(int idGeolocalisation) {
-
+        geolocalisationVilleRepository.deleteById(idGeolocalisation);
     }
 
     @Override
+    @Transactional
     public void newJeu(String nom, String logo) {
-
+        jeuRepository.save(new Jeu(nom, logo));
     }
 
     @Override
+    @Transactional
     public void modifierLogoJeu(int idJeu, String logo) {
-
+        Jeu jeu = jeuRepository.findById(idJeu).orElseThrow();
+        jeu.setLogoJeu(logo);
+        jeuRepository.save(jeu);
     }
 
     @Override
+    @Transactional
     public void purgeImagesJeu(int idJeu) {
-
+        Jeu jeu = jeuRepository.findById(idJeu).orElseThrow();
+        jeu.purgeImages();
+        jeuRepository.save(jeu);
     }
 
     @Override
+    @Transactional
     public void addImage(int idJeu, int numImage, String image) {
-
+        Jeu jeu = jeuRepository.findById(idJeu).orElseThrow();
+        jeu.addImage(numImage, image);
+        jeuRepository.save(jeu);
     }
 
     @Override
+    @Transactional
     public void deleteJeu(int idJeu) {
-
+        jeuRepository.deleteById(idJeu);
     }
 
     @Override
+    @Transactional
     public void newMessage(String message, String pseudo) {
-
+        messageCMJRepository.save(new MessageCMJ(message, pseudo));
     }
 
     @Override
+    @Transactional
     public void deleteMessage(int idMessage) {
-
+        messageCMJRepository.deleteById(idMessage);
     }
 
     @Override
+    @Transactional
     public void newDefi() {
-
+        defiRepository.save(new Defi());
     }
 
     @Override
+    @Transactional
     public void deleteDefi(int idDefi) {
-
+        defiRepository.deleteById(idDefi);
     }
 
     @Override
+    @Transactional
     public void addQuestion(int idDefi, int numQuestion, String texteQuestion, String imageQuestion, String reponseQuestion) {
-
+        Defi defi = defiRepository.findById(idDefi).orElseThrow();
+        defi.ajouterQuestion(new QuestionDefi(numQuestion, texteQuestion, imageQuestion, reponseQuestion));
+        defiRepository.save(defi);
     }
 
     @Override
+    @Transactional
     public void deleteQuestion(int idDefi, int idQuestion) {
-
+        Defi defi = defiRepository.findById(idDefi).orElseThrow();
+        defi.supprimerQuestion(idQuestion);
+        defiRepository.save(defi);
     }
 
     @Override
+    @Transactional
     public void addReponseDefi(int idDefi, String pseudo, int numQuestion, String texteReponse, String imageReponse) {
-
+        reponseDefiRepository.save(new ReponseDefi(idDefi, pseudo, numQuestion, texteReponse, imageReponse));
     }
 
     @Override
+    @Transactional
     public void deleteQrCode(int idQrCode) {
-
+        qrCodeRepository.deleteById(idQrCode);
     }
 
     @Override
+    @Transactional
     public void newQrCode(String code, int scoreCode) {
-
+        qrCodeRepository.save(new QrCode(code, scoreCode));
     }
 
     @Override
+    @Transactional
     public boolean login(String pseudo, String password) {
-        return false;
+
+        Optional<Joueur> joueur = joueurRepository.findById(pseudo);
+        return joueur.map(value -> value.getPassword().equals(password)).orElse(false);
     }
 
     @Override
+    @Transactional
     public void validerCGU(String pseudo, LocalDate date) {
-
+        Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
+        joueur.setAcceptationCGU(date);
+        joueurRepository.save(joueur);
     }
 }

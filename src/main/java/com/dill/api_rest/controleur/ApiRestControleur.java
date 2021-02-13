@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -62,11 +63,8 @@ public class ApiRestControleur {
     // getjoueurbypseudo
     @GetMapping("/joueur/{pseudo}")
     ResponseEntity<Joueur> getJoueurByPseudo (@PathVariable String pseudo){
-        Joueur joueur = service.getJoueurByPseudo(pseudo);
-        if (joueur != null)
-        return ResponseEntity.ok().body(service.getJoueurByPseudo(pseudo));
-        else
-            return ResponseEntity.notFound().build();
+        Optional<Joueur> joueur = service.getJoueurByPseudo(pseudo);
+        return joueur.map(value -> ResponseEntity.ok().body(value)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // getallscores
@@ -132,9 +130,9 @@ public class ApiRestControleur {
 
     // newJoueur
     @PostMapping("/newJoueur")
-    ResponseEntity<String> createJoueur(@RequestBody String pseudo){
+    ResponseEntity<String> createJoueur(@RequestBody String pseudo, @RequestBody String password, @RequestBody LocalDate acceptationCGU, @RequestBody Parent parent){
 
-        service.newJoueur(pseudo);
+        service.newJoueur(pseudo, password, acceptationCGU, parent);
         return ResponseEntity.ok().body("Joueur créé");
     }
 

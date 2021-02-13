@@ -1,16 +1,16 @@
 package com.dill.api_rest.service;
 
 import com.dill.api_rest.modele.*;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public interface Services {
 
     // pour charger les informations d'un joueur
-    Joueur getJoueurByPseudo (String pseudo);
+    Optional<Joueur> getJoueurByPseudo (String pseudo);
 
     // pour récupérer les scores
     Map<String, Collection<Score>> getAllScoresJoueurs ();
@@ -41,7 +41,7 @@ public interface Services {
     String getLogoJeu(int idJeu);
 
     // Créer un joueur
-    void newJoueur(String pseudo);
+    void newJoueur(String pseudo, String password, LocalDate acceptationCGU, Parent parent);
 
     // Changer un score
     void modifierScore (String pseudo, int idJeu, int scoreJeu);

@@ -37,6 +37,13 @@ public class Joueur {
     public Joueur() {
     }
 
+    public Joueur(String pseudo, String password, LocalDate acceptationCGU, Parent parent) {
+        this.pseudo = pseudo;
+        this.password = password;
+        this.acceptationCGU = acceptationCGU;
+        this.parent = parent;
+    }
+
     public LocalDate getAcceptationCGU() {
         return acceptationCGU;
     }
@@ -119,4 +126,8 @@ public class Joueur {
 
         this.pointsVisites.add(pointVisite);
     }
+
+    public void modifierScore(int idJeu, int scoreJeu){}
+
+    public void modifierTemps(int idJeu, int tempsJeu){}
 }
