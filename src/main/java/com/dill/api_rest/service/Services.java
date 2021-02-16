@@ -120,4 +120,6 @@ public interface Services {
 
     // valider ou revalider les cgu
     void validerCGU(String pseudo, LocalDate date);
+
+    void modifierBadge(int id, String nom, String image);
 }

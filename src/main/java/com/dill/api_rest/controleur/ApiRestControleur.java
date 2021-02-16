@@ -179,7 +179,7 @@ public class ApiRestControleur {
 
 
     // newBadge
-    @PostMapping("/newbadge")
+    @PostMapping("/newBadge")
     ResponseEntity<String> createBadge(@RequestBody Badge badge){
 
         service.newBadge(badge.getId(), badge.getNom(), badge.getImage());
@@ -199,7 +199,7 @@ public class ApiRestControleur {
     ResponseEntity<String> createQrCode(@RequestBody QrCode code){
 
         service.newQrCode(code.getTexteCode(), code.getScoreCode());
-        return ResponseEntity.ok().body("Badge créé");
+        return ResponseEntity.ok().body("Qr Code créé");
     }
 
     // deleteQrCode
@@ -331,6 +331,15 @@ public class ApiRestControleur {
         service.addReponseDefi(idDefi, reponseDefi.getPseudoJoueur(), reponseDefi.getNumQuestion(), reponseDefi.getTexteReponse(), reponseDefi.getImageReponse());
         return ResponseEntity.ok("Réponse au défi recue");
 
+    }
+
+    // Pour tester modifier un badge
+    // newBadge
+    @PatchMapping("/modifierBadge")
+    ResponseEntity<String> modifierBadge(@RequestBody Badge badge){
+
+        service.modifierBadge(badge.getId(), badge.getNom(), badge.getImage());
+        return ResponseEntity.ok().body("Badge modifié");
     }
 
 }

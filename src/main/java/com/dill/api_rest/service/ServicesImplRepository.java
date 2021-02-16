@@ -305,4 +305,13 @@ public class ServicesImplRepository implements Services {
         joueur.setAcceptationCGU(date);
         joueurRepository.save(joueur);
     }
+
+    @Override
+    @Transactional
+    public void modifierBadge(int id, String nom, String image) {
+        Badge badge = badgeRepository.findById(id).orElseThrow();
+        badge.setNom(nom);
+        badge.setImage(image);
+        badgeRepository.save(badge);
+    }
 }

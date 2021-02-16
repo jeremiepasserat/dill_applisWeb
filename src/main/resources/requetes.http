@@ -13,7 +13,31 @@ Authorization: Basic admin admin
 GET http://localhost:8080/api/badges
 Authorization: Basic fromage fromage
 
+###
+DELETE http://localhost:8080/api/deleteBadge/1
+Authorization: Basic fromage fromage
 
 ###
-GET http://localhost:8080/api/username
-Authorization: Basic saucisse $2a$10$u.tYxlkJkjxOKtimhtfcwuP1OFxaFGAMu1OUWbA6u4HEBTzGijgjG
+POST http://localhost:8080/api/newBadge
+Authorization: Basic fromage fromage
+Content-Type: application/json
+
+{"id" : 2, "nom": "badge2", "image": "image.jpg"}
+
+###
+GET http://localhost:8080/api/qrCodes
+Authorization: Basic fromage fromage
+
+###
+POST http://localhost:8080/api/newQrCode
+Authorization: Basic fromage fromage
+Content-Type: application/json
+
+{"texteCode" : "Je suis un Qr Code", "scoreCode": "1"}
+
+###
+PATCH http://localhost:8080/api/modifierBadge
+Authorization: Basic fromage fromage
+Content-Type: application/json
+
+{"id" : 1, "nom": "badgeuh1", "image": "imageuh.jpg"}
