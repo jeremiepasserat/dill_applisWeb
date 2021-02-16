@@ -41,3 +41,10 @@ Authorization: Basic fromage fromage
 Content-Type: application/json
 
 {"id" : 1, "nom": "badgeuh1", "image": "imageuh.jpg"}
+
+###
+POST http://localhost:8080/api/token?username=fromage&password=fromage
+
+###
+GET http://localhost:8080/api/qrCodes
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDE0Njk3N30.YL3HzturzR2pqSZRCFPixg8dvq2Jrp3xB45T3crV4Ck
