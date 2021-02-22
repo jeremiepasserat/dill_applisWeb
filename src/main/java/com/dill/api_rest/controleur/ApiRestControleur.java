@@ -182,7 +182,6 @@ public class ApiRestControleur {
     @PostMapping("/newBadge")
     ResponseEntity<String> createBadge(@RequestBody Badge badge){
 
-        System.out.println("Test : " + badge);
         if (badge == null)
             return ResponseEntity.badRequest().body("prout");
 
