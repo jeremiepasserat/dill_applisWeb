@@ -182,9 +182,14 @@ public class ApiRestControleur {
     @PostMapping("/newBadge")
     ResponseEntity<String> createBadge(@RequestBody Badge badge){
 
+        System.out.println("Test : " + badge);
+        if (badge == null)
+            return ResponseEntity.badRequest().body("prout");
+
         service.newBadge(badge.getId(), badge.getNom(), badge.getImage());
         return ResponseEntity.ok().body("Badge créé");
     }
+
 
     // deleteBadge
     @DeleteMapping("/deleteBadge/{idBadge}")

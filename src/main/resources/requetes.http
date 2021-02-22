@@ -19,32 +19,43 @@ Authorization: Basic fromage fromage
 
 ###
 POST http://localhost:8080/api/newBadge
-Authorization: Basic fromage fromage
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDU4Mjk3Nn0.f47rPGGVXTrYwajOYZuzrqFmWp_wFwIV1yDHnbqhzh0
 Content-Type: application/json
 
-{"id" : 2, "nom": "badge2", "image": "image.jpg"}
+{"id":3,"nom":"badge3","image":"image.jpg"}
 
 ###
 GET http://localhost:8080/api/qrCodes
 Authorization: Basic fromage fromage
 
 ###
-POST http://localhost:8080/api/newQrCode
-Authorization: Basic fromage fromage
+POST https://localhost:8080/api/newQrCode
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDYwNDMyOH0.y-YLyKDXgOIadjWdaRJUUbhet5zC2Q7Ro4pt1_q5p-o
 Content-Type: application/json
 
-{"texteCode" : "Je suis un Qr Code", "scoreCode": "1"}
+{"texteCode" : "Je suis un autre Qr Code", "scoreCode": "1"}
 
 ###
 PATCH http://localhost:8080/api/modifierBadge
-Authorization: Basic fromage fromage
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDY3MDM0MX0.nJT436wPpQx8v4HYckJBKcLzJxDAYp1re1IKlLjarvs
 Content-Type: application/json
 
-{"id" : 1, "nom": "badgeuh1", "image": "imageuh.jpg"}
+{"id" : 2, "nom": "badge 2", "image": "imageb2.jpg"}
 
 ###
-POST http://localhost:8080/api/token?username=fromage&password=fromage
+POST https://localhost:8080/api/token?username=fromage&password=fromage
 
 ###
 GET http://localhost:8080/api/qrCodes
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDE0Njk3N30.YL3HzturzR2pqSZRCFPixg8dvq2Jrp3xB45T3crV4Ck
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDU3MzY5NH0.dc3N8aTM8YqaggCF3DjTa9XHrtwg-l9XJlaaUZV5eos
+
+
+###
+GET http://localhost:8080/api/badges
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDU3MzY5NH0.dc3N8aTM8YqaggCF3DjTa9XHrtwg-l9XJlaaUZV5eos
+###
+POST http://localhost:8080/api/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDU5ODc5NH0.MN-xFjOpU21u32x4FssHfqQkHV7R1OdmPaqfylQTZhE
+Content-Type: application/json
+
+{"prout" :  {"test": 2}}
