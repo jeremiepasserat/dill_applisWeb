@@ -46,6 +46,18 @@ Content-Type: application/json
 POST https://localhost:8080/api/token?username=fromage&password=fromage
 
 ###
+POST https://localhost:8080/api/token?username=deullar&password=deullar
+
+###
+POST https://localhost:8080/api/token?username=kurapiprout&password=kurapiprout
+
+###
+POST https://localhost:8080/api/test?user=deullar&password=deullar
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNTM2Mzk1NH0.mSBpYioBclSAWHPB3oco9DVqiyY0-52e_Nv6ZbDIkgM
+
+
+
+###
 GET http://localhost:8080/api/qrCodes
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX0FETUlOIl0sImV4cCI6MTYxNDU3MzY5NH0.dc3N8aTM8YqaggCF3DjTa9XHrtwg-l9XJlaaUZV5eos
 

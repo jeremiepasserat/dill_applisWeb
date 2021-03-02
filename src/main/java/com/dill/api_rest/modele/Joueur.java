@@ -1,6 +1,8 @@
 package com.dill.api_rest.modele;
 
 
+import org.springframework.security.core.parameters.P;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -34,6 +36,9 @@ public class Joueur {
     @OneToMany
     Collection<GeolocalisationVille> pointsVisites;
 
+    @ElementCollection
+    Collection<Pas> pasJoueur;
+
     public Joueur() {
     }
 
@@ -42,6 +47,14 @@ public class Joueur {
         this.password = password;
         this.acceptationCGU = acceptationCGU;
         this.parent = parent;
+    }
+
+    public Collection<Pas> getPasJoueur() {
+        return pasJoueur;
+    }
+
+    public void setPasJoueur(Collection<Pas> pasJoueur) {
+        this.pasJoueur = pasJoueur;
     }
 
     public LocalDate getAcceptationCGU() {

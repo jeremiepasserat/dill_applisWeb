@@ -4,8 +4,12 @@ import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
@@ -20,28 +24,28 @@ public class ApiRestControleur {
     @Autowired
     Services service;
 
-  /*  @GetMapping("/test")
-    ResponseEntity<String> test(){
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        String upd = "update authorities set username = \"saucisse\" where authority = \"ROLE_ADMIN\"";
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
+ /*   @PostMapping("/test")
+    ResponseEntity<String> test(@RequestParam String user, @RequestParam String password){
 
-        String upf = "insert into users values (\"fromage\", \"" + passwordEncoder.encode("fromage") + "\", 1)";
-        System.out.println(upd);
+        //JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        String upe = "insert into authorities values (\"fromage\", \"ROLE_ADMIN\")";
-        System.out.println(upd);
+        String upf = "insert into users values ('" + user + "', '" + passwordEncoder.encode(password) + "', 1)";
+        String upg = "insert into authorities values ('" + user + "', 'ROLE_ADMIN')";
 
-        jdbcTemplate.execute("delete from authorities");
-        jdbcTemplate.execute("delete from users");
+        System.out.println("test : " + upf);
+        System.out.println("test 2 : " + upg);
+
 
         jdbcTemplate.execute(upf);
-        jdbcTemplate.execute(upe);
-        return ResponseEntity.ok("test");
+        jdbcTemplate.execute(upg);
+        return ResponseEntity.ok("Créé");
     }*/
 
     // Se connecter

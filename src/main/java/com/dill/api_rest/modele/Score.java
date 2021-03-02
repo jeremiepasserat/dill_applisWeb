@@ -1,14 +1,25 @@
 package com.dill.api_rest.modele;
 
 import javax.persistence.Embeddable;
+import java.time.LocalDate;
 
 @Embeddable
 public class Score {
+
+    private int moisJeu;
     private int idJeu;
     private int scoreJeu;
     private int tempsJeu;
 
     public Score() {
+    }
+
+    public int getMoisJeu() {
+        return moisJeu;
+    }
+
+    public void setMoisJeu(int moisJeu) {
+        this.moisJeu = moisJeu;
     }
 
     public int getIdJeu() {
