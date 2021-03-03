@@ -142,19 +142,11 @@ public class ApiRestControleur {
 
     // modifierScore
     @PatchMapping("/modifierScore")
-    ResponseEntity<String> modifierScore(@RequestBody String pseudo, @RequestBody int idJeu, @RequestBody int scoreJeu){
+    ResponseEntity<String> modifierScore(@RequestBody String pseudo, @RequestBody int moisJeu, @RequestBody int idJeu,
+                                         @RequestBody int scoreJeu, @RequestBody int tempsJeu){
 
-        service.modifierScore(pseudo, idJeu, scoreJeu);
+        service.modifierScore(pseudo, moisJeu, idJeu, scoreJeu, tempsJeu);
         return ResponseEntity.ok("Score modifié");
-    }
-
-
-    // modifierTemps
-    @PatchMapping("/modifierTemps")
-    ResponseEntity<String> modifierTemps(@RequestBody String pseudo, @RequestBody int idJeu, @RequestBody int tempsJeu){
-
-        service.modifierTemps(pseudo, idJeu, tempsJeu);
-        return ResponseEntity.ok("Temps modifié");
     }
 
     // modifierCoords

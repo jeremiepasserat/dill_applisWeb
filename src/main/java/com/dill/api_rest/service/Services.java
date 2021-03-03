@@ -43,11 +43,8 @@ public interface Services {
     // Créer un joueur
     void newJoueur(String pseudo, String password, LocalDate acceptationCGU, Parent parent);
 
-    // Changer un score
-    void modifierScore (String pseudo, int idJeu, int scoreJeu);
-
-    // Changer un timer de jeu
-    void modifierTemps (String pseudo, int idJeu, int tempsJeu);
+    // Changer un score et un temps
+    void modifierScore(String pseudo, int moisJeu, int idJeu, int scoreJeu, int tempsJeu);
 
     // charger des coordonnées
     void modifierCoords(String pseudo, double longitude, double latitude);

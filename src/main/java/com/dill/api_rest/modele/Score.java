@@ -11,7 +11,12 @@ public class Score {
     private int scoreJeu;
     private int tempsJeu;
 
-    public Score() {
+    public Score(int moisJeu, int idJeu, int scoreJeu, int tempsJeu) {
+
+        this.scoreJeu = scoreJeu;
+        this.moisJeu = moisJeu;
+        this.idJeu = idJeu;
+        this.tempsJeu = tempsJeu;
     }
 
     public int getMoisJeu() {
@@ -44,5 +49,15 @@ public class Score {
 
     public void setTempsJeu(int tempsJeu) {
         this.tempsJeu = tempsJeu;
+    }
+
+    public void newBestScoreJeu(int scoreJeu){
+        if (scoreJeu > this.scoreJeu){
+            this.scoreJeu = scoreJeu;
+        }
+    }
+
+    public void ajouterTempsJeu(int tempsJeu){
+        this.tempsJeu += tempsJeu;
     }
 }

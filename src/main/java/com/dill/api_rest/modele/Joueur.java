@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Entity
 public class Joueur {
@@ -140,7 +141,16 @@ public class Joueur {
         this.pointsVisites.add(pointVisite);
     }
 
-    public void modifierScore(int idJeu, int scoreJeu){}
+    public void modifierScore(int moisJeu, int idJeu, int scoreJeu, int tempsJeu){
 
-    public void modifierTemps(int idJeu, int tempsJeu){}
+        for (Score score: this.scoresJeu) {
+            if (score.getMoisJeu() == moisJeu && score.getIdJeu() == idJeu){
+                score.newBestScoreJeu(scoreJeu);
+                score.ajouterTempsJeu(tempsJeu);
+                return;
+            }
+        }
+        this.scoresJeu.add(new Score(moisJeu, idJeu, scoreJeu, tempsJeu));
+    }
+
 }

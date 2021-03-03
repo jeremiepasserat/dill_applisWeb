@@ -3,7 +3,6 @@ package com.dill.api_rest.service;
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,19 +121,12 @@ public class ServicesImplRepository implements Services {
 
     @Override
     @Transactional
-    public void modifierScore(String pseudo, int idJeu, int scoreJeu) {
+    public void modifierScore(String pseudo, int moisJeu, int idJeu, int scoreJeu, int tempsJeu) {
         Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
-        joueur.modifierScore(idJeu, scoreJeu);
+        joueur.modifierScore(moisJeu, idJeu, scoreJeu, tempsJeu);
         joueurRepository.save(joueur);
     }
 
-    @Override
-    @Transactional
-    public void modifierTemps(String pseudo, int idJeu, int tempsJeu) {
-        Joueur joueur = joueurRepository.findById(pseudo).orElseThrow();
-        joueur.modifierTemps(idJeu, tempsJeu);
-        joueurRepository.save(joueur);
-    }
 
     @Override
     @Transactional
