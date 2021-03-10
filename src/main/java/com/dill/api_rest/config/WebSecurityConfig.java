@@ -17,11 +17,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.SecretKey;
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 import java.security.Key;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableWebSecurity
@@ -48,13 +56,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokens))
+        http.cors().and().addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokens))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokens))
                 .authorizeRequests()
                 .antMatchers("/api/test").permitAll()
                 .antMatchers("/api/**").authenticated();
 
         http.csrf().disable();
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration configuration = new CorsConfiguration();
+        List<String> allowOrigins = singletonList("*");
+        configuration.setAllowedOrigins(allowOrigins);
+        configuration.setAllowedMethods(singletonList("*"));
+        configuration.setAllowedHeaders(singletonList("*"));
+        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+        //configuration.setAllowCredentials(true);
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
