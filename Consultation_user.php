@@ -2,6 +2,9 @@
     session_start();
     if (isset($_POST['pseudo'])){
         $_SESSION['pseudo'] = $_POST['pseudo'];
+        header("refresh:0");
+    }else if(!isset($_SESSION['email']) || !isset($_SESSION['password'])){
+        header("Location:index.html");
     }
     //les donnees recuperees depuis le fichier json
     $file = './files_json/joueur.json';
@@ -107,6 +110,7 @@ and open the template in the editor.
                                             case 'mail':
                                                 echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Adresse mail : </td>"
                                                 . "<td colspan = 5 > ".current($infos_associees)."</td>";
+                                                echo "</tr><tr>";
                                                 break;
                                         }
                                         next($infos_associees);

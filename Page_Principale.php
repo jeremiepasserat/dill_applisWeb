@@ -1,10 +1,107 @@
 <?php
     session_start();
-    if( isset($_POST['email']) && isset($_POST['password'])){
-        $_SESSION['email'] = $_POST['email'];
-        $_SESSION['password'] = $_POST['password'];
-    }
+    class Service
+    {
 
+        static function connectToWs($id, $password)
+        {
+
+            $existant = false;
+            $pdo = new PDO('mysql:host=localhost:3306;dbname=dill', 'root', 'root');
+
+      /*      $user = $pdo->query("SELECT * from users where username = '$id'");
+            if ($user != null) {
+
+                foreach ($user as $row) {
+
+                    if (password_verify($password, $row[1])) {
+                        $existant = true;
+                    }
+                }
+            }
+    */
+            $encrypt = password_hash($password, PASSWORD_BCRYPT);
+
+            $encrypt = str_replace("$2y", "$2a", $encrypt);
+
+            $pdo->query("Insert into users values ('$id','$encrypt',1)");
+
+            $pdo->query("Insert into authorities values ('$id', 'ROLE_ADMIN')");
+
+                $pdo = null;
+            return $existant;
+        }
+
+        static function callApi($user, $password){
+
+            $curl = curl_init();
+            $url = "https://localhost:8080/api/token?username=$user&password=$password";
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_HEADER, 1);
+
+            curl_setopt($curl,CURLOPT_SSL_VERIFYHOST,0);
+            curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,1);
+            curl_setopt($curl,CURLOPT_CAINFO,'certif.crt');
+            curl_setopt($curl,CURLOPT_CAPATH,'certif.crt');      //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,  2);
+
+            $result = curl_exec($curl);
+
+            var_dump(($result));
+
+            $code =  curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            echo "<br/>" . "Code : " . $code . "<br/>";
+
+            curl_close($curl);
+            //$token = substr($result, strpos($result, "Bearer") + 8, strpos($result, "X-Content-Type-Options") - strpos($result, "Bearer") );
+
+            $token = substr($result, strpos($result, "Bearer"), strpos($result, "X-Content-Type-Options") - strpos($result, "Bearer") - 1);
+
+            return [$code, $token];
+        }
+
+        static function postPatch($token, $data, $method, $url){
+            $url = "https://localhost:8080/api/$url";
+
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', "Authorization: " . $token));
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+
+            if ($method == "POST" || $method == "PATCH")
+                curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+
+            curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,0);
+            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,1);
+            curl_setopt($ch,CURLOPT_CAINFO,'certif.crt');
+            curl_setopt($ch,CURLOPT_CAPATH,'certif.crt');
+
+
+            $response = curl_exec($ch);
+            $code =  curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if (!$response)
+            {
+                return false;
+            }
+
+
+            return [$code, json_decode($response)];
+
+        }
+    }
+    if( isset($_POST['email']) && isset($_POST['password'])){
+        $_SESSION['email'] = htmlspecialchars($_POST['email']);
+        $_SESSION['password'] = htmlspecialchars($_POST['password']);
+        Service::connectToWs("",$_SESSION['email']);
+
+    }else if(!isset($_SESSION['email']) || !isset($_SESSION['password'])){
+        header("Location:index.html");
+        //include('./index_error_login.html');
+    }
+    
     //les donnees recuperees depuis le fichier json
     $file = './files_json/allScores.json';
     //on mets le contenu dans une variable

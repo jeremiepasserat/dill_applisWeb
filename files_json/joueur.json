@@ -11,6 +11,12 @@
             "prenom": "Finch",
             "dateNaissance": "1967-08-02",
             "mail": "finchhobbs@kangle.com"
+          },
+          {
+            "nom": "Hobbs",
+            "prenom": "Marie",
+            "dateNaissance": "1969-18-12",
+            "mail": "mariehobbs@kangle.com"
           }
         ],
         "messageCMJS": [

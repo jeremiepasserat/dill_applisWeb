@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if(!isset($_SESSION['email']) || !isset($_SESSION['password'])){
+        header("Location:index.html");
+    }
 ?>
 <!DOCTYPE html>
 <!--
@@ -73,7 +76,10 @@ and open the template in the editor.
                                 "<td>".key($array_score_total)."</td>".
                                 "<td>".current($array_score_total)."</td>".
                                 "<td>".$classement."</td>".
-                                "<td><button>Consulter</button></td>";
+                                "<td><form action=\"Consultation_user.php\" method=\"post\" >".
+                                    "<input type=\"hidden\" value=".key($array_score_total)." id=\"pseudo\" name=\"pseudo\"/>".
+                                    "<input type=\"submit\" value=\"consulter\" />".
+                                    "</form>";
                         next($array_score_total);
                         $classement++;
                         echo "</tr>";
