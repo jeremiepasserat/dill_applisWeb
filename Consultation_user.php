@@ -26,6 +26,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="./CSS/style_consultation.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src='./script/tri_dynamique_tableau.js' async"></script>
     </head>
     <body>
         <div id="block_page">

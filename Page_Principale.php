@@ -1,97 +1,25 @@
 <?php
     session_start();
-    class Service
-    {
-
-        static function connectToWs($id, $password)
-        {
-
-            $existant = false;
-            $pdo = new PDO('mysql:host=localhost:3306;dbname=dill', 'root', 'root');
-
-      /*      $user = $pdo->query("SELECT * from users where username = '$id'");
-            if ($user != null) {
-
-                foreach ($user as $row) {
-
-                    if (password_verify($password, $row[1])) {
-                        $existant = true;
-                    }
-                }
-            }
-    */
-            $encrypt = password_hash($password, PASSWORD_BCRYPT);
-
-            $encrypt = str_replace("$2y", "$2a", $encrypt);
-
-            $pdo->query("Insert into users values ('$id','$encrypt',1)");
-
-            $pdo->query("Insert into authorities values ('$id', 'ROLE_ADMIN')");
-
-                $pdo = null;
-            return $existant;
+    /*
+     * code pour la connexion au WebService
+        session_start();
+        require "./files_json/Cservice.php";
+        //on verifie que le formulaire est remplie
+        if( isset($_POST['id']) && isset($_POST['password'])){
+            $_SESSION['id'] = htmlspecialchars($_POST['id']);
+            $_SESSION['password'] = htmlspecialchars($_POST['password']);
+            $token = Service::connecToService($_SESSION['id'], $_SESSION['password']);
+            $_SESSION['token'] = $token;
         }
-
-        static function callApi($user, $password){
-
-            $curl = curl_init();
-            $url = "https://localhost:8080/api/token?username=$user&password=$password";
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_HEADER, 1);
-
-            curl_setopt($curl,CURLOPT_SSL_VERIFYHOST,0);
-            curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,1);
-            curl_setopt($curl,CURLOPT_CAINFO,'certif.crt');
-            curl_setopt($curl,CURLOPT_CAPATH,'certif.crt');      //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,  2);
-
-            $result = curl_exec($curl);
-
-            var_dump(($result));
-
-            $code =  curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-            echo "<br/>" . "Code : " . $code . "<br/>";
-
-            curl_close($curl);
-            //$token = substr($result, strpos($result, "Bearer") + 8, strpos($result, "X-Content-Type-Options") - strpos($result, "Bearer") );
-
-            $token = substr($result, strpos($result, "Bearer"), strpos($result, "X-Content-Type-Options") - strpos($result, "Bearer") - 1);
-
-            return [$code, $token];
+        //on verifie si l'utilisateur peut se connecter (avec notament token)
+        if(!isset($_SESSION['id']) || !isset($_SESSION['id']) || !isset($token)){
+            //retourne sur la page de connexion
+            header("Location:index.html");
+            //include('./index_error_login.html');
         }
+     */
 
-        static function postPatch($token, $data, $method, $url){
-            $url = "https://localhost:8080/api/$url";
-
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', "Authorization: " . $token));
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-
-            if ($method == "POST" || $method == "PATCH")
-                curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-
-            curl_setopt($ch,CURLOPT_SSL_VERIFYHOST,0);
-            curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,1);
-            curl_setopt($ch,CURLOPT_CAINFO,'certif.crt');
-            curl_setopt($ch,CURLOPT_CAPATH,'certif.crt');
-
-
-            $response = curl_exec($ch);
-            $code =  curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if (!$response)
-            {
-                return false;
-            }
-
-
-            return [$code, json_decode($response)];
-
-        }
-    }
+    /*Code basee sur les fichiers json (temporaire)*/
     if( isset($_POST['email']) && isset($_POST['password'])){
         $_SESSION['email'] = htmlspecialchars($_POST['email']);
         $_SESSION['password'] = htmlspecialchars($_POST['password']);
@@ -101,7 +29,6 @@
         header("Location:index.html");
         //include('./index_error_login.html');
     }
-    
     //les donnees recuperees depuis le fichier json
     $file = './files_json/allScores.json';
     //on mets le contenu dans une variable
@@ -110,70 +37,294 @@
     $array_data = json_decode($data, true);
     //tableau contenant tous les utilisateurs avec leurs scores
     $array_score_utilisateur = $array_data[0]['allScores'];
+    $array_score_total = array();
+
+    //on recuperer les scores totaux
+    foreach ( $array_score_utilisateur as $utilisateur){
+        $score_total_util = 0;
+        foreach($utilisateur['scores'] as $jeu){
+            $score_total_util += $jeu['scoreJeu'];
+        }
+        $array_score_total[$utilisateur['pseudo']] = $score_total_util;
+    }
+    arsort($array_score_total, SORT_NUMERIC);
+    
 ?>
 
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>Page Principal</title>
-        <link rel="stylesheet" href="./CSS/style.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div id="block_page">
-            <header>
-                <div id="titre_principale">
-                    <div id="logo">
-                        <a href="Page_Principale.php"><img src="./Images/logo.PNG" alt="Logo de l'appli" /><a/>
-                        <h1>Lamotte Beuvron</h1>
-                    </div>
-                </div>                   
-            </header>
-            <nav>
-                <ul>
-                    <li><a href="./Classement_general.php">Classement général</a></li>
-                    <li><a href="#">Magazine CMJ</a></li>
-                    <li><a href="./Gestion_defis.php">Gestion des défis</a></li>
-                    <li><a href="#">Gestion des jeux</a></li>
-                </ul>
-            </nav>
-            <div id='banniere_image'>
-                <div id='banniere_description'>
-                    Commune Lamotte-Beuvron
-                    <a href='https://www.lamotte-beuvron.fr/index.php' class='bouton_rouge'>Voir le site<img src='./Images/flecheblanche.png' alt='' /></a>
-                </div>
-            </div>
-            
-            <section>
-                <article>
-                    <h1>Application de la commune de Lamotte-Beuvron</h1>
-                    <p id='page_principal'>
-                        Bonjours <?php echo $_SESSION['email'];?>,<br/> vous trouverez ci-dessus un menu permettant d'accèder à différentes fonctionnalité.
-                    </p>
-                </article>
-                <aside>
-                    <h1>Quelques chiffres :</h1>
-                    <img src="Images/logo_mairie.png" alt="logo de la mairie"/>
-                    <p>Nombre d'inscrit : <?php echo count($array_score_utilisateur); ?></p>
-                    <p>Nombre de défis : 0</p>
-                    <p>Nombre de jeux : 0</p>
-                    <p>Nombre d'article dans le CMJ : 0</p>
-                </aside>
-            </section>
-            <div class='Recherche'>
-                <p>Consulter le profil d'un utilisateur :</p>
-                <form action="Consultation_user.php" method="post">
-                    <label for="pseudo">Pseudo</label> :
-                    <input type="text" name="pseudo" id="pseudo"  required />
-                    <input type="submit" value="Rechercher" />
-                </form>
-            </div>
+<title>Accueil</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./CSS/style_consultation.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right"><img src="./Images/logo.PNG" alt="Logo de l'appli" style="width:30px" /></span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <span>Welcome, <strong>Mike</strong></span><br>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Menu</h5>
+  </div>
+  <div class="w3-bar-block">
+      <a href="./Page_Principale.php" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-home fa-fw"></i>  Accueil</a>
+    <a href="./Classement_general.php" class="w3-bar-item w3-button w3-padding "><i class="fa fa-trophy fa-fw"></i>  Classement</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-newspaper-o fa-fw"></i>  Magazine CMJ</a>
+    <a href="./Gestion_defis.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-pencil-square-o fa-fw"></i>  Défis</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-gamepad fa-fw"></i>  Jeux</a>
+    <br><br>
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> Nombre de :</b></h5>
+  </header>
+
+  <div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-quarter">
+      <div class="w3-container w3-red w3-padding-16">
+        <div class="w3-left"><i class="fa fa-envelope-o w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3>52</h3>
         </div>
-    </body>
+        <div class="w3-clear"></div>
+        <h4>Article</h4>
+      </div>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-orange w3-text-white w3-padding-16">
+        <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3><?php echo count($array_score_utilisateur); ?></h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Inscrit</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+      <div class="w3-twothird">
+        <h5>Les 10 premiers </h5>
+        <table class="w3-table w3-striped w3-white">
+            <tr>
+                <th></th>
+                <th>Nom utilisateur</th>
+                <th>Score</th>
+                <th>Classement</th>
+            </tr>
+            <?php
+                    
+                //On affiche les 10 premiers utilisateurs avec leur classement.
+                $classement = 1;
+                foreach ($array_score_total as $row){
+                    echo "<tr>".
+                        "<td><i class=\"fa fa-user w3-text-blue w3-large\"></i>";
+                        switch ($classement){
+                            case 1:
+                                echo "<i class=\"fa fa-trophy w3-text-yellow w3-large \">";
+                                break;
+                            case 2:
+                                echo "<i class=\"fa fa-trophy w3-text-brown w3-large \">";
+                                break;
+                            case 3:
+                                echo "<i class=\"fa fa-trophy w3-text-gray w3-large \">";
+                                break;
+                        }
+                        echo "</td><td>".key($array_score_total)."</td>".
+                        "<td>".current($array_score_total)."</td>".
+                        "<td>".$classement."</td>";
+                    next($array_score_total);
+                    $classement++;
+                    echo "</tr>";
+                    if ($classement > 10){
+                        break;
+                    }
+                }
+            ?>
+        </table>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5><i class="fa fa-bar-chart"></i>General Stats</h5>
+    <p>New Visitors</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
+    </div>
+
+    <p>New Users</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
+    </div>
+
+    <p>Bounce Rate</p>
+    <div class="w3-grey">
+      <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="w3-container">
+    <h5>Countries</h5>
+    <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+      <tr>
+        <td>United States</td>
+        <td>65%</td>
+      </tr>
+      <tr>
+        <td>UK</td>
+        <td>15.7%</td>
+      </tr>
+      <tr>
+        <td>Russia</td>
+        <td>5.6%</td>
+      </tr>
+      <tr>
+        <td>Spain</td>
+        <td>2.1%</td>
+      </tr>
+      <tr>
+        <td>India</td>
+        <td>1.9%</td>
+      </tr>
+      <tr>
+        <td>France</td>
+        <td>1.5%</td>
+      </tr>
+    </table><br>
+    <button class="w3-button w3-dark-grey">More Countries  <i class="fa fa-arrow-right"></i></button>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Recent Users</h5>
+    <ul class="w3-ul w3-card-4 w3-white">
+      <li class="w3-padding-16">
+        <img src="/w3images/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <span class="w3-xlarge">Mike</span><br>
+      </li>
+      <li class="w3-padding-16">
+        <img src="/w3images/avatar5.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <span class="w3-xlarge">Jill</span><br>
+      </li>
+      <li class="w3-padding-16">
+        <img src="/w3images/avatar6.png" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <span class="w3-xlarge">Jane</span><br>
+      </li>
+    </ul>
+  </div>
+  <hr>
+
+  <div class="w3-container">
+    <h5>Recent Comments</h5>
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4>John <span class="w3-opacity w3-medium">Sep 29, 2014, 9:12 PM</span></h4>
+        <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
+      </div>
+    </div>
+
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="/w3images/avatar1.png" style="width:96px;height:96px">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4>Bo <span class="w3-opacity w3-medium">Sep 28, 2014, 10:15 PM</span></h4>
+        <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><br>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="w3-container w3-dark-grey w3-padding-32">
+    <div class="w3-row">
+      <div class="w3-container w3-third">
+        <h5 class="w3-bottombar w3-border-green">Demographic</h5>
+        <p>Language</p>
+        <p>Country</p>
+        <p>City</p>
+      </div>
+      <div class="w3-container w3-third">
+        <h5 class="w3-bottombar w3-border-red">System</h5>
+        <p>Browser</p>
+        <p>OS</p>
+        <p>More</p>
+      </div>
+      <div class="w3-container w3-third">
+        <h5 class="w3-bottombar w3-border-orange">Target</h5>
+        <p>Users</p>
+        <p>Active</p>
+        <p>Geo</p>
+        <p>Interests</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+    <h4>FOOTER</h4>
+    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
+
+</body>
 </html>
