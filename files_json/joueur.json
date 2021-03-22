@@ -1586,13 +1586,13 @@
         "badges": [
           {
             "id": 0,
-            "nom": "minim",
-            "image": "qui.jpg"
+            "nom": "Consommer Local",
+            "image": "./Images/Pastilles/ConsommerLocal.jpg"
           },
           {
             "id": 1,
-            "nom": "velit",
-            "image": "ut.jpg"
+            "nom": "Découverte Lamotte",
+            "image": "./Images/Pastilles/DécouverteLamotte.jpg"
           }
         ],
         "pointsVisites": [

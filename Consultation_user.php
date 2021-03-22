@@ -3,8 +3,9 @@
     if (isset($_POST['pseudo'])){
         $_SESSION['pseudo'] = $_POST['pseudo'];
         header("refresh:0");
-    }else if(!isset($_SESSION['email']) || !isset($_SESSION['password'])){
-        header("Location:index.html");
+    }else if(!isset($_SESSION['id']) || !isset($_SESSION['password'])){
+        $_SESSION["fail_connexion"]=1;
+        header("Location:index.php");
     }
     //les donnees recuperees depuis le fichier json
     $file = './files_json/joueur.json';
@@ -12,222 +13,294 @@
     $data = file_get_contents($file);
     //on décode le contenu du flux sous forme de tableau
     $array_data = json_decode($data, true);
+    //On creer un tableau pour garder les info de l'utilisateur trouve
+    $array_utilisateur = array();
+    foreach ($array_data[0]['joueur'] as $row){
+        if($row['pseudo'] == $_SESSION['pseudo']){
+            $array_utilisateur = $row;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>Classement général</title>
-        <link rel="stylesheet" href="./CSS/style_consultation.css">
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src='./script/tri_dynamique_tableau.js' async"></script>
-    </head>
-    <body>
-        <div id="block_page">
-            <header>
-                <div id="titre_principale">
-                    <div id="logo">
-                        <a href="Page_Principale.php"><img src="./Images/logo.PNG" alt="Logo de l'appli" /><a/>
-                        <h1>Lamotte Beuvron</h1>
-                    </div>
-                </div>                   
-            </header>
-            
-            <nav class="Consultation">
-                <ul>
-                    <li><a href="./Page_Principale.php">Page principal</a></li>
-                    <li><a href="./Classement_general.php">Classement général</a></li>
-                    <li><a href="#">Magazine CMJ</a></li>
-                    <li><a href="./Gestion_defis.php">Gestion des défis</a></li>
-                    <li><a href="#">Gestion des jeux</a></li>
-                </ul>
-            </nav>
-            <div class="Consultation">
-                <?php 
-                //var_dump($array_data[0]['joueur']);
-                //On creer un tableau pour garder les info de l'utilisateur trouve
-                $array_utilisateur = array();
-                foreach ($array_data[0]['joueur'] as $row){
-                    if($row['pseudo'] == $_SESSION['pseudo']){
-                        $array_utilisateur = $row;
-                    }
-                }
-                //on gère l'affichage si on a trouvé l'utilisateur
+<title>profil utilisateur</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="./CSS/style_consultation.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey">
 
-                if (count($array_utilisateur)>0){
-                    echo "<table>"
-                            . "<caption>Fiche d'information</caption>";
-                    for ($i = 0; $i <count($array_utilisateur); $i++){ 
-                        echo "<tr>";
-                        //On sais pas avance qu'il y aura 7 colonnes au max
-                        switch (key($array_utilisateur)){
-                            case 'pseudo':
-                                echo "<th class='cons_table_top_left' style=\"background-color: #fc7676 \"> Pseudonyme de l'utilisateur : </th>"
-                                    . "<td colspan = 6 style=\"border-top: none;\"> ".current($array_utilisateur)."</td>";
-                                break;
-                            case 'password':
-                                echo "<th class='cons_table_left' style=\"background-color: #fcdf76 \"> Mot de passe de l'utilisateur : </th>"
-                                    . "<td colspan = 6 > ".current($array_utilisateur)."</td>";
-                                break;
-                            case 'acceptationCGU':
-                                echo "<th class='cons_table_left' style=\"background-color: #cbff73 \"> date de création du compte : </th>"
-                                    . "<td colspan = 6>".current($array_utilisateur)."</td>";
-                                break;
-                            case 'parent':
-                                //On a un tableau contenant les informations des parents
-                                $array_parents = current($array_utilisateur);
-                                $nombre_parent = count($array_parents);
-                                //parent possede 4 info (donc quatre lignes) on fusion les $nombre_parent * 4 lignes
-                                echo "<th rowspan=".($nombre_parent*4)." class='cons_table_left' style=\"background-color: #76fc92 \"> Information des parents : </th>";
-                                
-                                for ($boucle_parents = 0; $boucle_parents<$nombre_parent; $boucle_parents++){
-                                    //on récupère les infos associées aux parents
-                                    $infos_associees = $array_parents[$boucle_parents];
-                                    //on parcours les 4 infos en gereant l'affichage
-                                    for($boucle_info = 0 ; $boucle_info < 4; $boucle_info++ ){
-                                        switch (key($infos_associees)){
-                                            //on affiche les informations
-                                            case 'nom':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline;white-space: nowrap ;\"> Nom du parent : </td>"
-                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
-                                                echo "</tr><tr>";
-                                                break;
-                                            case 'prenom':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Prénom du parent : </td>"
-                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
-                                                echo "</tr><tr>";
-                                                break;
-                                            case 'dateNaissance':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Date de naissance : </td>"
-                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
-                                                echo "</tr><tr>";
-                                                break;
-                                            case 'mail':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> Adresse mail : </td>"
-                                                . "<td colspan = 5 > ".current($infos_associees)."</td>";
-                                                echo "</tr><tr>";
-                                                break;
-                                        }
-                                        next($infos_associees);
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right"><img src="./Images/logo.PNG" alt="Logo de l'appli" style="width:30px" /></span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <span>Welcome, <strong>Mike</strong></span><br>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Menu</h5>
+  </div>
+  <div class="w3-bar-block">
+      <a href="./Page_Principale.php" class="w3-bar-item w3-button w3-padding "><i class="fa fa-home fa-fw"></i>  Accueil</a>
+    <a href="./Classement_general.php" class="w3-bar-item w3-button w3-padding "><i class="fa fa-trophy fa-fw"></i>  Classement</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-newspaper-o fa-fw"></i>  Magazine CMJ</a>
+    <a href="./Gestion_defis.php" class="w3-bar-item w3-button w3-padding "><i class="fa fa-pencil-square-o fa-fw"></i>  Défis</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-gamepad fa-fw"></i>  Jeux</a>
+    <br><br>
+  </div>
+</nav>
+
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h2><b><i class="fa fa-search"></i> Profil de <?php if(count($array_utilisateur)){echo $_SESSION['pseudo'];}else{echo "l'utilisateur n'existe pas";} ?> :</b></h2>
+  </header>
+
+  <div class="w3-panel">
+    <div class="w3-row-padding" style="margin:0 -16px">
+
+        <?php
+            //on gère l'affichage si on a trouvé l'utilisateur
+            if (count($array_utilisateur)>0){
+                //On parcours toutes les infos de l'utilisateur
+                for ($i = 0; $i <count($array_utilisateur); $i++){
+                   switch (key($array_utilisateur)){
+                        case 'pseudo':
+                            echo "<button type=\"button\" class=\"w3-button w3-theme-d1 w3-margin-bottom w3-xlarge\"><i class=\"fa fa-trash w3-text-red\"></i> Supprimer l'utilisateur</button>".
+                            "<div class=\"w3-panel\">".
+                            "<div class=\"w3-container w3-card w3-white w3-round w3-margin\"><br>".
+                            "<h1><i class=\"fa fa-info fa-2x\"></i> Information </h1><br>".
+                            "<table class=\"w3-table w3-striped w3-white\">".
+                            "<tr>".
+                            "<td><i class=\"fa fa-tag \"> Nom utilisateur</i></td>".
+                            "<td>".current($array_utilisateur)."</td>".
+                            "</tr>";
+                            break;
+                        case 'password':
+                            echo 
+                            "<tr>".
+                            "<td><i class=\"fa fa-key \">Mot de passe </i></td>".
+                            "<td>".current($array_utilisateur)."</td>".
+                            "</tr>";
+                            break;
+                        case 'acceptationCGU':
+                            echo 
+                            "<tr>".
+                            "<td><i class=\"fa fa-calendar-check-o \"> date d'acceptation CGU</i></td>".
+                            "<td>".current($array_utilisateur)."</td>".
+                            "</tr>".
+                            "</table></br>";
+                            break;
+                        case 'parent':
+                            //On a un tableau contenant les informations des parents
+                            $array_parents = current($array_utilisateur);
+                            $nombre_parent = count($array_parents);
+                            echo
+                            "<div class=\"w3-panel\">".
+                            "<h3> <i class=\"fa fa-user \"></i> Parents</h3>";
+                            //On parcourt les infos des parents
+                            for ($boucle_parents = 0; $boucle_parents<$nombre_parent; $boucle_parents++){
+                                //on récupère les infos associées aux parents
+                                echo 
+                                "<div class=\"w3-col m6\">";
+                                $infos_associees = $array_parents[$boucle_parents];
+                                //on parcours les 4 infos en gereant l'affichage
+                                for($boucle_info = 0 ; $boucle_info < 4; $boucle_info++ ){
+                                    switch (key($infos_associees)){
+                                        //on affiche les informations
+                                        case 'nom':
+                                            echo
+                                            "<div class=\"w3-container w3-card w3-white w3-round w3-margin\">".
+                                            "<table class=\"w3-table w3-striped w3-white\">".
+                                            "<tr>".
+                                            "<td> Nom </i></td>".
+                                            "<td>".current($infos_associees)."</td>".
+                                            "</tr>";
+                                            break;
+                                        case 'prenom':
+                                            echo 
+                                            "<tr>".
+                                            "<td> prénom </i></td>".
+                                            "<td>".current($infos_associees)."</td>".
+                                            "</tr>";
+                                            break;
+                                        case 'dateNaissance':
+                                            echo 
+                                            "<tr>".
+                                            "<td> date de naissance </td>".
+                                            "<td>".current($infos_associees)."</td>".
+                                            "</tr>";
+                                            break;
+                                        case 'mail':
+                                            echo 
+                                            "<tr>".
+                                            "<td> e-mail </td>".
+                                            "<td>".current($infos_associees)."</td>".
+                                            "</tr>";
+                                            break;
                                     }
+                                    next($infos_associees);
                                 }
-                                break;
-                            case 'messageCMJS':
-                                //On a un tableau contenant les informations a propos des messages
-                                $array_messages = current($array_utilisateur);
-                                $nombre_message = count($array_messages);
-                                //On trie le tableau par ordre chronologique des dates
-                                $date_publication = array_column($array_messages,'dateMessage');
-                                array_multisort($date_publication, SORT_STRING,SORT_DESC, $array_messages);
-                                /*message possede 4 info on fusionne les $nombre_message+1 lignes*/
-                                echo "<th rowspan =".($nombre_message+1)." class='cons_table_left' style=\"background-color: #73fff8 \"> messages envoyés : </th>";
-                                for ($boucle_messages = 0; $boucle_messages<$nombre_message; $boucle_messages++){
-                                    //on récupère les infos associées aux messages
-                                    $infos_associees = $array_messages[$boucle_messages];
-                                    //on parcours les 4 infos en gereant l'affichage (on en garde que 2)
-                                    for($boucle_info = 0 ; $boucle_info < 4; $boucle_info++ ){
-                                        switch (key($infos_associees)){
-                                            //on affiche les informations
-                                            case 'message':
-                                                echo "<tr>";
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> contenu du message : </td>"
-                                                . "<td colspan = 3 > ".current($infos_associees)."</td>";
-                                                break;
-                                            case 'dateMessage':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> publié le : </td>"
-                                                . "<td > ".current($infos_associees)."</td>";
-                                                echo "</tr>";
-                                                break;
-                                            default:
-                                                break;
-                                        }
-                                        next($infos_associees);
+                                echo 
+                                "</table>".
+                                "</div>".
+                                "</div>";
+                            }
+                            echo 
+                            "</div>".
+                            "</div>".
+                            "</div>";
+                            break;
+                        case 'messageCMJS':
+                            echo 
+                            "<div class=\"w3-panel\">".
+                            "<div class=\"w3-container w3-card w3-white w3-round w3-margin\"><br>".
+                            "<h1><i class=\"fa fa-comments fa-2x\"></i> Message </h1><br>";
+                            //On a un tableau contenant les informations a propos des messages
+                            $array_messages = current($array_utilisateur);
+                            $nombre_message = count($array_messages);
+                            //On trie le tableau par ordre chronologique des dates
+                            $date_publication = array_column($array_messages,'dateMessage');
+                            array_multisort($date_publication, SORT_STRING,SORT_DESC, $array_messages);
+                            for ($boucle_messages = 0; $boucle_messages<$nombre_message; $boucle_messages++){
+                                //on récupère les infos associées aux messages
+                                $infos_associees = $array_messages[$boucle_messages];
+                                //on parcours les 4 infos en gereant l'affichage (on en garde que 2)
+                                for($boucle_info = 0 ; $boucle_info < 4; $boucle_info++ ){
+                                    switch (key($infos_associees)){
+                                        //on affiche les informations
+                                        case 'message':
+                                            echo "<div class=\"w3-container w3-card w3-white w3-round w3-margin\">".
+                                            "<span class=\"w3-right w3-opacity\"><i class=\"fa fa-times w3-text-red w3-hover-opacity \"></i></span>".
+                                            "<p>".current($infos_associees);
+                                            break;
+                                        case 'dateMessage':
+                                            echo 
+                                            "</br><strong class=\"w3-text-green\">publié le : </strong>".current($infos_associees)."</p>".
+                                            "</div>";
+                                            break;
+                                        default:
+                                            break;
                                     }
+                                    next($infos_associees);
                                 }
-                                break;
-                            case 'scoresJeu':
-                                //On a un tableau contenant les informations a propos des scores
-                                $array_score = current($array_utilisateur);
-                                $nombre_score = count($array_score);
-                                /*scores possede 3 info donc on fusionne ces $nombre_score+1 lignes*/
-                                echo "<th rowspan=".($nombre_score+1)." class='cons_table_left' style=\"background-color: #7382ff \"> score du joueur: </th>";
-                                for ($boucle_score = 0; $boucle_score<$nombre_score; $boucle_score++){
-                                    //on récupère les infos associées aux messages
-                                    $infos_associees = $array_score[$boucle_score];
-                                    //on parcours les 3 infos en gereant l'affichage (on en garde que 2)
-                                    for($boucle_info = 0 ; $boucle_info < 3; $boucle_info++ ){
-                                        switch (key($infos_associees)){
-                                            //on affiche les informations
-                                            case 'idJeu':
-                                                echo "<tr><td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> jeu numéro : </td>"
-                                                . "<td> ".current($infos_associees)."</td>";
-                                                break;
-                                            case 'scoreJeu':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> score de : </td>"
-                                                . "<td> ".current($infos_associees)."</td>";
-                                                break;
-                                            case 'tempsJeu':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> temps passé : </td>"
-                                                . "<td > ".current($infos_associees)." heure(s)</td>";
-                                                echo "</tr>";
-                                                break;
-                                            
-                                        }
-                                        next($infos_associees);
+                            }
+                            echo 
+                            "</div>".
+                            "</div>";
+                            break;
+                        case 'scoresJeu':
+                            echo 
+                            "<div class=\"w3-panel\">".
+                            "<div class=\"w3-container w3-card w3-white w3-round w3-margin\"><br>".
+                            "<h1><i class=\"fa fa-trophy fa-2x\"></i> Score </h1><br>";
+                            //On a un tableau contenant les informations a propos des scores
+                            $array_score = current($array_utilisateur);
+                            $nombre_score = count($array_score);
+                            for ($boucle_score = 0; $boucle_score<$nombre_score; $boucle_score++){
+                                //on récupère les infos associées aux messages
+                                $infos_associees = $array_score[$boucle_score];
+                                //on parcours les 3 infos en gereant l'affichage (on en garde que 2)
+                                for($boucle_info = 0 ; $boucle_info < 3; $boucle_info++ ){
+                                    switch (key($infos_associees)){
+                                        //on affiche les informations
+                                        case 'idJeu':
+                                            echo "<div class=\"w3-container w3-card w3-white w3-round w3-margin\">".
+                                            "<p> Jeu numéro ".current($infos_associees);
+                                            break;
+                                        case 'scoreJeu':
+                                            echo " avec un score de <strong>".current($infos_associees)."</strong>";
+                                            break;
+                                        case 'tempsJeu':
+                                            echo ". Temps total passé sur le jeu : ".current($infos_associees)." heure(s)</p>".
+                                            "</div>";
+                                            break;
+
                                     }
+                                    next($infos_associees);
                                 }
-                                break;
-                            case 'badges':
-                                //On a un tableau contenant les informations a propos des badges
-                                $array_badge = current($array_utilisateur);
-                                $nombre_badge = count($array_badge);
-                                /*scores possede 3 info donc on fusionne ces $nombre_badge+1 lignes*/
-                                echo "<th rowspan=".($nombre_badge+1)." class='cons_table_bottom_left' style=\"background-color: #cf75fd \"> badge du joueur: </th>";
-                                for ($boucle_badge = 0; $boucle_badge<$nombre_badge; $boucle_badge++){
-                                    //on récupère les infos associées aux messages
-                                    $infos_associees = $array_badge[$boucle_badge];
-                                    //on parcours les 3 infos en gereant l'affichage (on en garde que 2)
-                                    for($boucle_info = 0 ; $boucle_info < 3; $boucle_info++ ){
-                                        switch (key($infos_associees)){
-                                            //on affiche les informations
-                                            case 'id':
-                                                echo "<tr class='cons_table_bottom'><td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> badge numéro : </td>"
-                                                . "<td> ".current($infos_associees)."</td>";
-                                                break;
-                                            case 'nom':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> nom du badge : </td>"
-                                                . "<td style=\"width: 40px;\"> ".current($infos_associees)."</td>";
-                                                break;
-                                            case 'image':
-                                                echo "<td style=\"font-weight: bold;text-decoration: underline; white-space: nowrap ;\"> badge : </td>"
-                                                . "<td> ".current($infos_associees)." </td>";
-                                                echo "</tr>";
-                                                break;
-                                            
-                                        }
-                                        next($infos_associees);
+                            }
+                            echo 
+                            "</div>".
+                            "</div>";
+                            break;
+                        case 'badges':
+                            echo 
+                            "<div class=\"w3-panel\">".
+                            "<div class=\"w3-container w3-card w3-white w3-round w3-margin\"><br>".
+                            "<h1><i class=\"fa fa-certificate fa-2x\"></i> Badges </h1><br>";
+                            //On a un tableau contenant les informations a propos des badges
+                            $array_badge = current($array_utilisateur);
+                            $nombre_badge = count($array_badge);
+                            for ($boucle_badge = 0; $boucle_badge<$nombre_badge; $boucle_badge++){
+                                //on récupère les infos associées aux messages
+                                $infos_associees = $array_badge[$boucle_badge];
+                                //on parcours les 3 infos en gereant l'affichage (on en garde que 2)
+                                for($boucle_info = 0 ; $boucle_info < 3; $boucle_info++ ){
+                                    switch (key($infos_associees)){
+                                        //on affiche les informations
+                                        case 'nom':
+                                            echo "<div class=\"w3-container w3-card w3-white w3-round w3-margin\">".
+                                            "<div class=\"w3-col s8 w3-bar\">".
+                                            "<span>".current($infos_associees)."</span>".
+                                            "</div>";
+                                            break;
+                                        case 'image':
+                                            echo "<div class=\"w3-col s4\">".
+                                            "<img src=\"".current($infos_associees)."\" class=\"w3-circle w3-margin-right\" style=\"width:46px\">".
+                                            "</div>".
+                                            "</div>";
+                                            break;
+
                                     }
+                                    next($infos_associees);
                                 }
-                                break;
-                        }
-                        next($array_utilisateur);
-                        echo "</tr>";
+                            }
+                            echo 
+                            "</div>".
+                            "</div>";
+                            break;
                     }
-                    echo "</table>";
-                    
-                }else{
-                    echo "<p>L'utilisateur que vous recherche n'existe pas <br/>"
-                    . "<a href = \"Page_Principale.php\"><input class=\"bouton\" type=\"button\" value=\"retour\"></a></p>";
+                    next($array_utilisateur);
                 }
-                ?>
-                
-            </div>
-        </div>
-    </body>
+            }else{
+                echo "<div class=\"w3-center\">".
+                "<a href = \"Classement_general.php\"><input class=\"bouton\" type=\"button\" value=\"retour\"></a></div>";
+            }
+        ?>
+    </div>
+  </div>
+  
+ 
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey w3-center">
+    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+
+
+
+</body>
 </html>

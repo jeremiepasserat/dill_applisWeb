@@ -1,7 +1,9 @@
 <?php
     session_start();
-    if(!isset($_SESSION['email']) || !isset($_SESSION['password'])){
-        header("Location:index.html");
+    if(!isset($_SESSION['id']) || !isset($_SESSION['password'])){
+        $_SESSION["fail_connexion"]=1;
+        header("Location:index.php");
+        //include('./index_error_login.html');
     }
     //les donnees recuperees depuis le fichier json
     $file = './files_json/allScores.json';
@@ -26,7 +28,7 @@
 ?>
 <!DOCTYPE html>
 <html>
-<title>Accueil</title>
+<title>Classement général</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./CSS/style_consultation.css">
@@ -51,7 +53,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
     </div>
     <div class="w3-col s8 w3-bar">
-      <span>Welcome, <strong>Mike</strong></span><br>
+      <span>Welcome, <strong><?php echo $_SESSION['id'];?></strong></span><br>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
     </div>
@@ -83,8 +85,15 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </header>
 
   <div class="w3-panel">
-    <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-twothird">                    
+    <div class="w3-row-padding" style="margin:0 -16px">                    
+        <div class="w3-container">
+            <div class="w3-panel w3-padding-16 w3-grey w3-opacity w3-card w3-hover-opacity-off">
+                <h2>Consulter le profil d'un utilisateur :</h2>
+                <form action="Consultation_user.php" method="post">
+                    <input type="text" name="pseudo" id="pseudo" placeholder="Pseudo" required />
+                    <input type="submit" value="Rechercher" />
+                </form>
+        </div>
         <table class="w3-table w3-striped w3-white">
             <thead>
                 <tr>
@@ -96,7 +105,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             </thead>
             <tbody>
             <?php
-                    
+
             //On affiche tous les utilisateurs avec leur classement.
             $classement = 1;
             foreach ($array_score_total as $row){
@@ -118,7 +127,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             ?>
             </tbody>
         </table>
-      </div>
     </div>
   </div>
   <hr>
