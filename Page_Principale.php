@@ -1,33 +1,25 @@
-<?php
+<?php    
+    /* code pour la connexion au WebService */
     session_start();
-    /*
-     * code pour la connexion au WebService
-        session_start();
-        require "./files_json/Cservice.php";
-        //on verifie que le formulaire est remplie
-        if( isset($_POST['id']) && isset($_POST['password'])){
-            $_SESSION['id'] = htmlspecialchars($_POST['id']);
-            $_SESSION['password'] = htmlspecialchars($_POST['password']);
-            $token = Service::connecToService($_SESSION['id'], $_SESSION['password']);
-            $_SESSION['token'] = $token;
-        }
-        //on verifie si l'utilisateur peut se connecter (avec notament token)
-        if(!isset($_SESSION['id']) || !isset($_SESSION['id']) || !isset($token)){
-            //retourne sur la page de connexion
-            header("Location:index.html");
-            //include('./index_error_login.html');
-        }
-     */
-
-    /*Code basee sur les fichiers json (temporaire)*/
+    require "./files_json/Cservice.php";
+    $Service = new CService;
+    
+    //on verifie que le formulaire est remplie
     if( isset($_POST['id']) && isset($_POST['password'])){
         $_SESSION['id'] = htmlspecialchars($_POST['id']);
         $_SESSION['password'] = htmlspecialchars($_POST['password']);
-
-    }else if(!isset($_SESSION['id']) || !isset($_SESSION['password'])){
-        header("Location:index.html");
-        //include('./index_error_login.html');
+        $token = $Service::connectUserToWS($_SESSION['id'], $_SESSION['password']);
+        $_SESSION['token'] = $token;
     }
+    //on verifie si l'utilisateur peut se connecter (avec notament token)
+    if(!isset($_SESSION['id']) || !isset($_SESSION['id']) || !isset($token)){
+        //retourne sur la page de connexion
+        $_SESSION["fail_connexion"]=1;
+        header("Location:index.php");
+        
+    }
+    
+    /*Code basee sur les fichiers json (temporaire)*/
     //les donnees recuperees depuis le fichier json
     $file = './files_json/allScores.json';
     //on mets le contenu dans une variable
