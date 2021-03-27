@@ -1,5 +1,6 @@
 package com.dill.api_rest.controleur;
 
+import com.dill.api_rest.dto.JoueurDTO;
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Services;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,9 +135,19 @@ public class ApiRestControleur {
 
     // newJoueur
     @PostMapping("/newJoueur")
-    ResponseEntity<String> createJoueur(@RequestBody String pseudo, @RequestBody String password, @RequestBody LocalDate acceptationCGU, @RequestBody Parent parent){
+    ResponseEntity<String> createJoueur(@RequestBody String pseudo, @RequestBody String password, @RequestBody Parent parent){
 
-        service.newJoueur(pseudo, password, acceptationCGU, parent);
+        LocalDate date = LocalDate.now();
+        service.newJoueur(pseudo, password, date, parent);
+        return ResponseEntity.ok().body("Joueur créé");
+    }
+
+    @PostMapping("/newJoueurv2")
+    ResponseEntity<String> createJoueurv2(@RequestBody Joueur joueur){
+        LocalDate date = LocalDate.now();
+
+        //Joueur joueur1 = new Joueur(joueur.getPseudo(), joueur.getPassword(), joueur.getAcceptationCGU(), joueur.getParent());
+        service.newJoueur(joueur.getPseudo(), joueur.getPassword(), date, joueur.getParent());
         return ResponseEntity.ok().body("Joueur créé");
     }
 

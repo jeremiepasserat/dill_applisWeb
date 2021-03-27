@@ -48,6 +48,7 @@ public class Joueur {
         this.password = password;
         this.acceptationCGU = acceptationCGU;
         this.parent = parent;
+        this.coordonneesJoueur = new Coordonnees();
     }
 
     public Collection<Pas> getPasJoueur() {
