@@ -1,6 +1,5 @@
 package com.dill.api_rest.controleur;
 
-import com.dill.api_rest.dto.JoueurDTO;
 import com.dill.api_rest.modele.*;
 import com.dill.api_rest.service.Services;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,25 +151,24 @@ public class ApiRestControleur {
     }
 
     // modifierScore
-    @PatchMapping("/modifierScore")
-    ResponseEntity<String> modifierScore(@RequestBody String pseudo, @RequestBody int moisJeu, @RequestBody int idJeu,
-                                         @RequestBody int scoreJeu, @RequestBody int tempsJeu){
+    @PatchMapping("/modifierScore/{pseudo}")
+    ResponseEntity<String> modifierScore(@PathVariable String pseudo, @RequestBody Score score){
 
-        service.modifierScore(pseudo, moisJeu, idJeu, scoreJeu, tempsJeu);
+        service.modifierScore(pseudo, score.getMoisJeu(), score.getIdJeu(), score.getScoreJeu(), score.getTempsJeu());
         return ResponseEntity.ok("Score modifié");
     }
 
     // modifierCoords
-    @PatchMapping("/modifierCoords")
-    ResponseEntity<String> modifierCoords(@RequestBody String pseudo, @RequestBody double longitude, @RequestBody double latitude){
+    @PatchMapping("/modifierCoords/{pseudo}")
+    ResponseEntity<String> modifierCoords(@PathVariable String pseudo, @RequestBody Coordonnees coordonnees){
 
-        service.modifierCoords(pseudo, longitude, latitude);
+        service.modifierCoords(pseudo, coordonnees.getLongitude(), coordonnees.getLatitude());
         return ResponseEntity.ok("Coordonnées du joueur modifiées");
     }
 
     // ajouter un point visite
-    @PatchMapping("/ajouterPointVisite")
-    ResponseEntity<String> ajouterPointVisite(@RequestBody String pseudo, @RequestBody int idPointVisite){
+    @PatchMapping("/ajouterPointVisite/{pseudo}")
+    ResponseEntity<String> ajouterPointVisite(@PathVariable String pseudo, @RequestBody int idPointVisite){
 
         service.ajouterPointVisite(pseudo, idPointVisite);
         return ResponseEntity.ok("point visité ajouté");

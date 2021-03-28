@@ -53,15 +53,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource);        }
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokens))
+        http.cors().and()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokens))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokens))
                 .authorizeRequests()
-                .antMatchers("/api/test").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/api-docs/**").permitAll()
                 .antMatchers("/api/**").authenticated();
-
+  /*      http.httpBasic().and().authorizeRequests()
+                .antMatchers("/swagger-ui/index.html").permitAll();
+*/
         http.csrf().disable();
     }
 

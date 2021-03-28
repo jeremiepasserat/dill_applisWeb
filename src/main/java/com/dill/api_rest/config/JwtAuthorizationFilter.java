@@ -26,18 +26,34 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println("hagemikichi : " + request.getRequestURI());
 
-        UsernamePasswordAuthenticationToken authentication = null;
-        try{
 
-            authentication = jwtTokens.decodeToken(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (!request.getRequestURI().contains("/swagger-ui/") && !request.getRequestURI().contains("/api-docs")){
 
-        } catch (TokenErroneException e){
-            SecurityContextHolder.clearContext();
+            String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+            //System.out.println("Hagemikichi" + request.getRequestURI());
+
+
+
+            UsernamePasswordAuthenticationToken authentication = null;
+            try{
+
+                authentication = jwtTokens.decodeToken(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            } catch (TokenErroneException e){
+                SecurityContextHolder.clearContext();
+
+            }
+
+        } else
+        {
+            System.out.println(request.getRequestURI());
+            System.out.println(request.getRequestURL().toString());
         }
+
 
         chain.doFilter(request, response);
     }
