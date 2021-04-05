@@ -20,18 +20,23 @@
     }
     
     /*Code basee sur les fichiers json (temporaire)*/
+    /*
     //les donnees recuperees depuis le fichier json
     $file = './files_json/allScores.json';
     //on mets le contenu dans une variable
     $data = file_get_contents($file);
     //on décode le contenu du flux sous forme de tableau
     $array_data = json_decode($data, true);
+    */
+    
+    
     //tableau contenant tous les utilisateurs avec leurs scores
-    $array_score_utilisateur = $array_data[0]['allScores'];
+    //$array_score_utilisateur = $array_data[0]['allScores'];
+    $array_score_utilisateur = CService::postPatch($token[1], null, "GET", "allScores");;
     $array_score_total = array();
 
     //on recuperer les scores totaux
-    foreach ( $array_score_utilisateur as $utilisateur){
+    foreach ( $array_score_utilisateur[1] as $utilisateur){
         $score_total_util = 0;
         foreach($utilisateur['scores'] as $jeu){
             $score_total_util += $jeu['scoreJeu'];
@@ -165,24 +170,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       </div>
   </div>
   <hr>
-  <div class="w3-container">
-    <h5><i class="fa fa-bar-chart"></i>General Stats</h5>
-    <p>New Visitors</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
-    </div>
-
-    <p>New Users</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
-    </div>
-
-    <p>Bounce Rate</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
-    </div>
-  </div>
-  <hr>
+  
 
   <!-- Footer -->
   <footer class="w3-container w3-center w3-padding-16 w3-light-grey">
